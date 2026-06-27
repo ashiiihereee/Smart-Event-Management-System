@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Participant Management | SmartEvents</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="global.css">
+    <link rel="stylesheet" href="coordinator.css">
+    <link rel="stylesheet" href="assignedevents.css">
+</head>
+
+<body>
+
+<nav class="coord-navbar">
+    <div class="logo">SmartEvents</div>
+    <ul class="coord-nav-links">
+        <li><a href="coordinatordashboard.html">Dashboard</a></li>
+        <li><a href="assignedevents.html">My Events</a></li>
+        <li><a href="participantmanagement.html" class="active">Participants</a></li>
+        <li><a href="attendancemanagement.html">Attendance</a></li>
+        <li><a href="coordinatorprofile.html">Profile</a></li>
+        <li><a href="homepage.html" class="logout-btn">Logout</a></li>
+    </ul>
+    <div class="coord-badge">📋 Coordinator</div>
+</nav>
+
+<div class="coord-page">
+    <div class="welcome-bar">
+        <div class="welcome-inner">
+            <div><h1>Participant Management</h1><p>View and manage participants across your assigned events</p></div>
+            <select id="eventSelect" class="filter-select" style="padding:10px 18px;font-size:14px;" onchange="filterParticipants()">
+                <option value="hacknova">HackNova 2026</option>
+                <option value="rhythm">Rhythm Fest 2026</option>
+                <option value="football">Football Championship</option>
+                <option value="robotics">Robotics Workshop</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="coord-content">
+
+        <div class="three-col">
+            <div class="card card-pad" style="text-align:center;">
+                <div style="font-size:32px;font-weight:800;color:var(--primary);letter-spacing:-1px;" id="totalReg">38</div>
+                <div style="font-size:13px;color:var(--muted);margin-top:4px;">Total Registered</div>
+            </div>
+            <div class="card card-pad" style="text-align:center;">
+                <div style="font-size:32px;font-weight:800;color:var(--success);letter-spacing:-1px;" id="slotsLeft">12</div>
+                <div style="font-size:13px;color:var(--muted);margin-top:4px;">Slots Remaining</div>
+            </div>
+            <div class="card card-pad" style="text-align:center;">
+                <div style="font-size:32px;font-weight:800;color:var(--warning);letter-spacing:-1px;" id="teamsCount">10</div>
+                <div style="font-size:13px;color:var(--muted);margin-top:4px;">Teams Registered</div>
+            </div>
+        </div>
+
+        <div class="card card-pad" style="padding:14px 22px;">
+            <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
+                <div style="flex:1;min-width:200px;display:flex;align-items:center;gap:8px;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:10px 14px;">
+                    <span>🔍</span>
+                    <input type="text" id="partSearch" placeholder="Search by name or roll number..." oninput="searchParticipants()"
+                        style="border:none;outline:none;background:transparent;font-size:14px;font-family:'Plus Jakarta Sans',sans-serif;width:100%;">
+                </div>
+                <select id="typeFilter" class="filter-select" onchange="searchParticipants()">
+                    <option value="">All Types</option>
+                    <option value="team">Team</option>
+                    <option value="solo">Solo</option>
+                </select>
+                <select id="statusFilter" class="filter-select" onchange="searchParticipants()">
+                    <option value="">All Status</option>
+                    <option value="confirmed">Confirmed</option>
+                    <option value="pending">Pending</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="table-card card">
+            <div style="padding:14px 22px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;">
+                <span style="font-size:14px;font-weight:700;color:var(--dark);">Participants — <span id="resultLabel">HackNova 2026</span></span>
+                <span style="font-size:13px;color:var(--muted);">Showing <strong id="partCount">5</strong> participants</span>
+            </div>
+            <div class="table-wrapper">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Participant / Team</th>
+                            <th>Roll No.</th>
+                            <th>Type</th>
+                            <th>Members</th>
+                            <th>Registered On</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="partTableBody">
+                        <tr data-type="team" data-status="confirmed" data-name="codecrush ashna bansal">
+                            <td>1</td>
+                            <td><div class="td-name">Team CodeCrush</div><div style="font-size:11px;color:var(--muted);">Ashna Bansal (Leader)</div></td>
+                            <td>22BCE1234</td>
+                            <td><span class="badge badge-technical">Team</span></td>
+                            <td>4</td>
+                            <td>8 Mar 2026</td>
+                            <td><span class="pill pill-success">Confirmed</span></td>
+                            <td><button class="action-btn" style="padding:5px 12px;font-size:12px;" onclick="viewParticipant('Team CodeCrush')">View</button></td>
+                        </tr>
+                        <tr data-type="team" data-status="confirmed" data-name="byteforce rohan sharma">
+                            <td>2</td>
+                            <td><div class="td-name">Team ByteForce</div><div style="font-size:11px;color:var(--muted);">Rohan Sharma (Leader)</div></td>
+                            <td>22BCE5678</td>
+                            <td><span class="badge badge-technical">Team</span></td>
+                            <td>3</td>
+                            <td>9 Mar 2026</td>
+                            <td><span class="pill pill-success">Confirmed</span></td>
+                            <td><button class="action-btn" style="padding:5px 12px;font-size:12px;" onclick="viewParticipant('Team ByteForce')">View</button></td>
+                        </tr>
+                        <tr data-type="team" data-status="pending" data-name="nullpointer priya mehta">
+                            <td>3</td>
+                            <td><div class="td-name">Team NullPointer</div><div style="font-size:11px;color:var(--muted);">Priya Mehta (Leader)</div></td>
+                            <td>22BCE9012</td>
+                            <td><span class="badge badge-technical">Team</span></td>
+                            <td>4</td>
+                            <td>10 Mar 2026</td>
+                            <td><span class="pill pill-warning">Pending</span></td>
+                            <td><button class="action-btn" style="padding:5px 12px;font-size:12px;" onclick="viewParticipant('Team NullPointer')">View</button></td>
+                        </tr>
+                        <tr data-type="team" data-status="confirmed" data-name="devhawks arjun kapoor">
+                            <td>4</td>
+                            <td><div class="td-name">Team DevHawks</div><div style="font-size:11px;color:var(--muted);">Arjun Kapoor (Leader)</div></td>
+                            <td>22BCE3456</td>
+                            <td><span class="badge badge-technical">Team</span></td>
+                            <td>2</td>
+                            <td>10 Mar 2026</td>
+                            <td><span class="pill pill-success">Confirmed</span></td>
+                            <td><button class="action-btn" style="padding:5px 12px;font-size:12px;" onclick="viewParticipant('Team DevHawks')">View</button></td>
+                        </tr>
+                        <tr data-type="team" data-status="confirmed" data-name="stackoverflow simran kaur">
+                            <td>5</td>
+                            <td><div class="td-name">Team StackOverflow</div><div style="font-size:11px;color:var(--muted);">Simran Kaur (Leader)</div></td>
+                            <td>22BCE7890</td>
+                            <td><span class="badge badge-technical">Team</span></td>
+                            <td>3</td>
+                            <td>11 Mar 2026</td>
+                            <td><span class="pill pill-success">Confirmed</span></td>
+                            <td><button class="action-btn" style="padding:5px 12px;font-size:12px;" onclick="viewParticipant('Team StackOverflow')">View</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="noPartResults" style="display:none;text-align:center;padding:28px;color:var(--muted);font-size:14px;">No participants found.</div>
+        </div>
+
+        <div style="display:flex;justify-content:flex-end;">
+            <button class="action-btn action-btn-primary" onclick="exportList()">⬇ Export Participant List</button>
+        </div>
+
+        <div id="exportMsg" style="display:none;text-align:right;font-size:13px;font-weight:600;color:var(--success);">✅ List exported successfully!</div>
+
+    </div>
+</div>
+
+<!-- VIEW PARTICIPANT MODAL -->
+<div id="viewModal" style="display:none;position:fixed;inset:0;background:rgba(15,23,42,0.5);z-index:1000;align-items:center;justify-content:center;">
+    <div style="background:#fff;border-radius:16px;padding:28px;max-width:400px;width:90%;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
+            <h3 style="font-size:18px;font-weight:700;" id="modalTeamName"></h3>
+            <button onclick="document.getElementById('viewModal').style.display='none'" style="background:none;border:none;font-size:18px;cursor:pointer;color:var(--muted);">✕</button>
+        </div>
+        <p style="font-size:13px;color:var(--muted);margin-bottom:18px;">Team details and member information</p>
+        <div style="display:grid;gap:10px;">
+            <div style="background:var(--bg);border-radius:8px;padding:10px 14px;border:1px solid var(--border);">
+                <div style="font-size:11px;color:var(--muted);margin-bottom:3px;">Event</div>
+                <div style="font-size:13px;font-weight:600;">HackNova 2026</div>
+            </div>
+            <div style="background:var(--bg);border-radius:8px;padding:10px 14px;border:1px solid var(--border);">
+                <div style="font-size:11px;color:var(--muted);margin-bottom:3px;">Status</div>
+                <div style="font-size:13px;font-weight:600;color:var(--success);">Confirmed</div>
+            </div>
+        </div>
+        <div style="margin-top:18px;display:flex;justify-content:flex-end;">
+            <button class="btn-outline" onclick="document.getElementById('viewModal').style.display='none'">Close</button>
+        </div>
+    </div>
+</div>
+
+<style>
+.filter-select{padding:8px 14px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;font-family:'Plus Jakarta Sans',sans-serif;color:var(--dark);background:#fff;outline:none;cursor:pointer;}
+.action-btn-primary{background:var(--primary);color:#fff;border-color:var(--primary);}
+.action-btn-primary:hover{background:var(--primary-hover);color:#fff;}
+</style>
+
+<script>
+const eventData = {
+    hacknova: { label:'HackNova 2026',      total:38, slots:12, teams:10 },
+    rhythm:   { label:'Rhythm Fest 2026',   total:30, slots:0,  teams:0  },
+    football: { label:'Football Championship', total:9, slots:5, teams:9 },
+    robotics: { label:'Robotics Workshop',  total:20, slots:0,  teams:0  }
+};
+
+function filterParticipants() {
+    const val = document.getElementById('eventSelect').value;
+    const d   = eventData[val];
+    document.getElementById('totalReg').textContent  = d.total;
+    document.getElementById('slotsLeft').textContent = d.slots;
+    document.getElementById('teamsCount').textContent = d.teams;
+    document.getElementById('resultLabel').textContent = d.label;
+}
+
+function searchParticipants() {
+    const query  = document.getElementById('partSearch').value.toLowerCase();
+    const type   = document.getElementById('typeFilter').value;
+    const status = document.getElementById('statusFilter').value;
+    const rows   = document.querySelectorAll('#partTableBody tr');
+    let visible  = 0;
+    rows.forEach(row => {
+        const name    = row.dataset.name   || '';
+        const rowType = row.dataset.type   || '';
+        const rowSt   = row.dataset.status || '';
+        const show = name.includes(query)
+            && (!type   || rowType === type)
+            && (!status || rowSt   === status);
+        row.style.display = show ? '' : 'none';
+        if (show) visible++;
+    });
+    document.getElementById('partCount').textContent    = visible;
+    document.getElementById('noPartResults').style.display = visible === 0 ? 'block' : 'none';
+}
+
+function viewParticipant(name) {
+    document.getElementById('modalTeamName').textContent = name;
+    document.getElementById('viewModal').style.display   = 'flex';
+}
+
+function exportList() {
+    const msg = document.getElementById('exportMsg');
+    msg.style.display = 'block';
+    setTimeout(() => msg.style.display = 'none', 2500);
+}
+</script>
+
+</body>
+</html>

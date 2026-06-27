@@ -1,0 +1,121 @@
+/* ============================================================
+   GLOBAL.CSS — SmartEvents
+   Shared styles: reset, variables, navbar, footer, buttons
+   ============================================================ */
+
+/* RESET */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 100%; overflow-x: hidden; }
+body { font-family: 'Plus Jakarta Sans', sans-serif; background: #f8faff; color: #0f172a; }
+
+/* VARIABLES */
+:root {
+    --primary:       #4f46e5;
+    --primary-hover: #4338ca;
+    --primary-light: #eef2ff;
+    --primary-border:#c7d2fe;
+    --dark:          #0f172a;
+    --muted:         #64748b;
+    --border:        #e2e8f0;
+    --card:          #ffffff;
+    --bg:            #f8faff;
+    --success:       #16a34a;
+    --success-light: #f0fdf4;
+    --danger:        #dc2626;
+    --danger-light:  #fef2f2;
+    --warning:       #d97706;
+    --warning-light: #fffbeb;
+}
+
+/* NAVBAR — public pages */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 60px;
+    height: 64px;
+    background: var(--card);
+    border-bottom: 1px solid var(--border);
+    width: 100%;
+}
+.logo { font-size: 20px; font-weight: 800; color: var(--primary); letter-spacing: -0.3px; }
+.nav-links { list-style: none; display: flex; gap: 4px; align-items: center; }
+.nav-links a { text-decoration: none; color: var(--muted); font-size: 14px; font-weight: 500; padding: 7px 14px; border-radius: 8px; transition: 0.2s; }
+.nav-links a:hover, .nav-links a.active { background: var(--primary-light); color: var(--primary); }
+.nav-right { display: flex; gap: 8px; align-items: center; }
+.btn-ghost { padding: 7px 18px; background: transparent; color: var(--dark); border: 1.5px solid var(--border); border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: 'Plus Jakarta Sans', sans-serif; transition: 0.2s; }
+.btn-ghost:hover { background: var(--bg); }
+.btn-solid { padding: 7px 18px; background: var(--primary); color: #fff; border: none; border-radius: 8px; font-size: 14px; font-weight: 700; cursor: pointer; font-family: 'Plus Jakarta Sans', sans-serif; transition: 0.2s; }
+.btn-solid:hover { background: var(--primary-hover); }
+
+/* DASHBOARD NAVBAR */
+.dash-navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 40px;
+    height: 64px;
+    background: var(--card);
+    border-bottom: 1px solid var(--border);
+    width: 100%;
+}
+.dash-nav-links { list-style: none; display: flex; gap: 4px; align-items: center; }
+.dash-nav-links a { text-decoration: none; color: var(--muted); font-size: 14px; font-weight: 500; padding: 7px 14px; border-radius: 8px; transition: 0.2s; }
+.dash-nav-links a:hover { background: var(--primary-light); color: var(--primary); }
+.dash-nav-links a.active { background: var(--primary-light); color: var(--primary); font-weight: 600; }
+.logout-btn { color: var(--danger) !important; }
+.logout-btn:hover { background: var(--danger-light) !important; }
+
+/* FOOTER */
+footer {
+    background: var(--dark);
+    padding: 52px 60px 24px;
+    width: 100%;
+}
+.footer-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr 1fr;
+    gap: 32px;
+    max-width: 1200px;
+    margin: 0 auto 32px auto;
+}
+.footer-section h4 { font-size: 13px; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+.footer-section p, .footer-section a { font-size: 13px; color: #475569; display: block; margin-bottom: 6px; text-decoration: none; transition: 0.2s; }
+.footer-section a:hover { color: #a5b4fc; }
+.footer-brand { font-size: 18px; font-weight: 800; color: #fff; margin-bottom: 10px; letter-spacing: -0.3px; }
+.footer-brand span { color: var(--primary); }
+.footer-bottom { text-align: center; font-size: 12px; color: #1e293b; padding-top: 22px; border-top: 1px solid #1e293b; max-width: 1200px; margin: 0 auto; }
+
+/* SECTION WRAPPER */
+.section { max-width: 1200px; margin: 0 auto; padding: 60px 40px; }
+.section-sm { max-width: 1200px; margin: 0 auto; padding: 40px; }
+.eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--primary); margin-bottom: 8px; }
+.sec-title { font-size: 28px; font-weight: 800; color: var(--dark); letter-spacing: -0.5px; margin-bottom: 8px; }
+.sec-sub { font-size: 14px; color: var(--muted); margin-bottom: 32px; }
+
+/* BADGES */
+.badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; }
+.badge-technical { background: #eef2ff; color: #3730a3; }
+.badge-cultural   { background: #fdf4ff; color: #7e22ce; }
+.badge-sports     { background: #f0fdf4; color: #15803d; }
+.badge-workshop   { background: #fff7ed; color: #c2410c; }
+
+/* STATUS PILLS */
+.pill { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+.pill-success  { background: var(--success-light); color: var(--success); }
+.pill-danger   { background: var(--danger-light);  color: var(--danger); }
+.pill-primary  { background: var(--primary-light); color: var(--primary); }
+.pill-warning  { background: var(--warning-light); color: var(--warning); }
+
+/* BUTTONS */
+.btn-primary { padding: 11px 26px; background: var(--primary); color: #fff; border: none; border-radius: 10px; font-size: 14px; font-weight: 700; cursor: pointer; font-family: 'Plus Jakarta Sans', sans-serif; transition: 0.2s; }
+.btn-primary:hover { background: var(--primary-hover); }
+.btn-outline { padding: 11px 26px; background: transparent; color: var(--primary); border: 1.5px solid var(--primary-border); border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: 'Plus Jakarta Sans', sans-serif; transition: 0.2s; }
+.btn-outline:hover { background: var(--primary-light); }
+.btn-sm { padding: 7px 16px; font-size: 13px; border-radius: 8px; }
+.btn-disabled { background: #e2e8f0 !important; color: #94a3b8 !important; cursor: not-allowed !important; }
+
+/* CARD BASE */
+.card { background: var(--card); border-radius: 16px; border: 1px solid var(--border); transition: transform 0.25s, box-shadow 0.25s; }
+.card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(79,70,229,0.08); }
+.card-pad { padding: 24px; }

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management | SmartEvents Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="global.css">
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+<nav class="admin-navbar">
+    <div class="logo">Smart<span>Events</span> <span style="font-size:11px;color:#475569;font-weight:500;margin-left:6px;">Admin</span></div>
+    <ul class="admin-nav-links">
+        <li><a href="admindashboard.html">Dashboard</a></li>
+        <li><a href="eventcontrol.html">Events</a></li>
+        <li><a href="usermanagement.html" class="active">Users</a></li>
+        <li><a href="roleassignment.html">Roles</a></li>
+        <li><a href="participationanalytics.html">Analytics</a></li>
+        <li><a href="attendanceoverview.html">Attendance</a></li>
+        <li><a href="systemsettings.html">Settings</a></li>
+        <li><a href="homepage.html" class="logout-btn">Logout</a></li>
+    </ul>
+    <div class="admin-badge">🛡️ Admin</div>
+</nav>
+
+<div class="admin-page">
+    <div class="welcome-bar">
+        <div class="welcome-inner">
+            <div>
+                <h1>User Management</h1>
+                <p>Manage students, coordinators and their access</p>
+            </div>
+            <div class="action-row">
+                <div style="display:flex;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;overflow:hidden;">
+                    <button class="tab-btn tab-active" id="tabStudents" onclick="switchTab('students')">Students</button>
+                    <button class="tab-btn" id="tabCoords" onclick="switchTab('coordinators')">Coordinators</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="admin-content">
+
+        <!-- STATS -->
+        <div class="stat-grid-3">
+            <div class="stat-card card">
+                <div class="stat-icon" style="background:#eef2ff;">🎓</div>
+                <div class="stat-num">522</div>
+                <div class="stat-label">Total Students</div>
+            </div>
+            <div class="stat-card card">
+                <div class="stat-icon" style="background:#fff7ed;">📋</div>
+                <div class="stat-num">18</div>
+                <div class="stat-label">Coordinators</div>
+            </div>
+            <div class="stat-card card">
+                <div class="stat-icon" style="background:#f0fdf4;">✅</div>
+                <div class="stat-num">540</div>
+                <div class="stat-label">Total Active Users</div>
+            </div>
+        </div>
+
+        <!-- FILTERS -->
+        <div class="card card-pad" style="padding:14px 22px;">
+            <div class="filters-bar">
+                <div class="search-box" style="flex:1;min-width:220px;">
+                    <span>🔍</span>
+                    <input type="text" placeholder="Search by name, email or roll number...">
+                </div>
+                <select class="filter-select">
+                    <option>All Departments</option>
+                    <option>Computer Science</option>
+                    <option>Data Science</option>
+                    <option>MBA</option>
+                    <option>Commerce</option>
+                </select>
+                <select class="filter-select">
+                    <option>All Status</option>
+                    <option>Active</option>
+                    <option>Inactive</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- STUDENTS TABLE -->
+        <div class="table-card card" id="studentsTable">
+            <div style="padding:16px 22px;border-bottom:1px solid var(--border);font-size:14px;font-weight:700;color:var(--dark);">Students (522)</div>
+            <div class="table-wrapper">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Student</th>
+                            <th>Roll No.</th>
+                            <th>Department</th>
+                            <th>Events Registered</th>
+                            <th>Status</th>
+                            <th>Joined</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>
+                                <div style="display:flex;align-items:center;gap:10px;">
+                                    <div style="width:34px;height:34px;border-radius:50%;background:var(--primary-light);color:var(--primary);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;">AB</div>
+                                    <div><div class="td-name">Ashna Bansal</div><div class="td-sub">ashna@nmims.edu</div></div>
+                                </div>
+                            </td>
+                            <td>22BCE1234</td>
+                            <td>Data Science</td>
+                            <td>3</td>
+                            <td><span class="pill pill-success">Active</span></td>
+                            <td>Jan 2026</td>
+                            <td><div class="action-row"><button class="action-btn" style="padding:5px 12px;font-size:12px;">View</button><button class="action-btn btn-danger" style="padding:5px 12px;font-size:12px;">Disable</button></div></td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>
+                                <div style="display:flex;align-items:center;gap:10px;">
+                                    <div style="width:34px;height:34px;border-radius:50%;background:#f0fdf4;color:#15803d;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;">RS</div>
+                                    <div><div class="td-name">Rohan Sharma</div><div class="td-sub">rohan@nmims.edu</div></div>
+                                </div>
+                            </td>
+                            <td>22BCE5678</td>
+                            <td>Computer Science</td>
+                            <td>5</td>
+                            <td><span class="pill pill-success">Active</span></td>
+                            <td>Jan 2026</td>
+                            <td><div class="action-row"><button class="action-btn" style="padding:5px 12px;font-size:12px;">View</button><button class="action-btn btn-danger" style="padding:5px 12px;font-size:12px;">Disable</button></div></td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>
+                                <div style="display:flex;align-items:center;gap:10px;">
+                                    <div style="width:34px;height:34px;border-radius:50%;background:#fdf4ff;color:#7e22ce;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;">PM</div>
+                                    <div><div class="td-name">Priya Mehta</div><div class="td-sub">priya@nmims.edu</div></div>
+                                </div>
+                            </td>
+                            <td>22BCE9012</td>
+                            <td>MBA</td>
+                            <td>2</td>
+                            <td><span class="pill" style="background:#f1f5f9;color:#64748b;">Inactive</span></td>
+                            <td>Feb 2026</td>
+                            <td><div class="action-row"><button class="action-btn" style="padding:5px 12px;font-size:12px;">View</button><button class="action-btn btn-success" style="padding:5px 12px;font-size:12px;">Enable</button></div></td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>
+                                <div style="display:flex;align-items:center;gap:10px;">
+                                    <div style="width:34px;height:34px;border-radius:50%;background:#fff7ed;color:#c2410c;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;">AK</div>
+                                    <div><div class="td-name">Arjun Kapoor</div><div class="td-sub">arjun@nmims.edu</div></div>
+                                </div>
+                            </td>
+                            <td>22BCE3456</td>
+                            <td>Computer Science</td>
+                            <td>4</td>
+                            <td><span class="pill pill-success">Active</span></td>
+                            <td>Jan 2026</td>
+                            <td><div class="action-row"><button class="action-btn" style="padding:5px 12px;font-size:12px;">View</button><button class="action-btn btn-danger" style="padding:5px 12px;font-size:12px;">Disable</button></div></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- COORDINATORS TABLE -->
+        <div class="table-card card" id="coordsTable" style="display:none;">
+            <div style="padding:16px 22px;border-bottom:1px solid var(--border);font-size:14px;font-weight:700;color:var(--dark);">Coordinators (18)</div>
+            <div class="table-wrapper">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Coordinator</th>
+                            <th>Department</th>
+                            <th>Events Assigned</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>
+                                <div style="display:flex;align-items:center;gap:10px;">
+                                    <div style="width:34px;height:34px;border-radius:50%;background:var(--primary-light);color:var(--primary);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;">AS</div>
+                                    <div><div class="td-name">Ananya Sharma</div><div class="td-sub">ananya@nmims.edu</div></div>
+                                </div>
+                            </td>
+                            <td>Computer Science</td>
+                            <td>3</td>
+                            <td><span class="pill pill-success">Active</span></td>
+                            <td><div class="action-row"><button class="action-btn" style="padding:5px 12px;font-size:12px;">View</button><button class="action-btn btn-danger" style="padding:5px 12px;font-size:12px;">Remove Role</button></div></td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>
+                                <div style="display:flex;align-items:center;gap:10px;">
+                                    <div style="width:34px;height:34px;border-radius:50%;background:#f0fdf4;color:#15803d;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;">RM</div>
+                                    <div><div class="td-name">Rahul Mehta</div><div class="td-sub">rahul@nmims.edu</div></div>
+                                </div>
+                            </td>
+                            <td>Sports Dept.</td>
+                            <td>2</td>
+                            <td><span class="pill pill-success">Active</span></td>
+                            <td><div class="action-row"><button class="action-btn" style="padding:5px 12px;font-size:12px;">View</button><button class="action-btn btn-danger" style="padding:5px 12px;font-size:12px;">Remove Role</button></div></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<style>
+.tab-btn { padding:8px 20px;background:transparent;border:none;font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;transition:0.2s; }
+.tab-active { background:#fff;color:var(--primary);box-shadow:0 1px 4px rgba(0,0,0,0.08); }
+</style>
+
+<script>
+function switchTab(tab) {
+    const isStudents = tab === 'students';
+    document.getElementById('studentsTable').style.display = isStudents ? 'block' : 'none';
+    document.getElementById('coordsTable').style.display   = isStudents ? 'none' : 'block';
+    document.getElementById('tabStudents').classList.toggle('tab-active', isStudents);
+    document.getElementById('tabCoords').classList.toggle('tab-active', !isStudents);
+}
+</script>
+
+</body>
+</html>

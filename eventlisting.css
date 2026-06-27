@@ -1,0 +1,39 @@
+/* eventlisting.css */
+
+.page-header { background: #fff; border-bottom: 1px solid var(--border); padding: 48px 60px 36px; width: 100%; }
+.page-header-inner { max-width: 1200px; margin: 0 auto; }
+.page-header h1 { font-size: 36px; font-weight: 800; color: var(--dark); letter-spacing: -1px; margin-bottom: 8px; }
+.page-header p { font-size: 15px; color: var(--muted); }
+
+.filters-bar { background: var(--bg); border-bottom: 1px solid var(--border); padding: 16px 60px; width: 100%; }
+.filters-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+
+.search-box { display: flex; align-items: center; gap: 10px; background: #fff; border: 1.5px solid var(--border); border-radius: 10px; padding: 10px 16px; flex: 1; min-width: 200px; transition: 0.2s; }
+.search-box:focus-within { border-color: var(--primary); }
+.search-icon { font-size: 14px; }
+.search-box input { border: none; outline: none; font-size: 14px; font-family: 'Plus Jakarta Sans', sans-serif; color: var(--dark); background: transparent; width: 100%; }
+.search-box input::placeholder { color: #94a3b8; }
+
+.filter-selects { display: flex; gap: 10px; flex-wrap: wrap; }
+.filter-selects select { padding: 10px 14px; border: 1.5px solid var(--border); border-radius: 10px; background: #fff; font-size: 13px; font-family: 'Plus Jakarta Sans', sans-serif; color: var(--dark); cursor: pointer; outline: none; transition: 0.2s; }
+.filter-selects select:focus { border-color: var(--primary); }
+
+.results-bar { background: var(--bg); padding: 12px 60px; border-bottom: 1px solid var(--border); }
+.results-count { font-size: 13px; color: var(--muted); }
+.results-count strong { color: var(--dark); }
+
+.listing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+
+.lcard { overflow: hidden; }
+.lcard-top { height: 110px; display: flex; align-items: center; justify-content: space-between; padding: 0 22px; }
+.lcard-top.technical { background: linear-gradient(135deg, #eef2ff, #e0e7ff); }
+.lcard-top.cultural  { background: linear-gradient(135deg, #fdf4ff, #f3e8ff); }
+.lcard-top.sports    { background: linear-gradient(135deg, #f0fdf4, #dcfce7); }
+.lcard-emoji { font-size: 34px; }
+
+.lcard-body { padding: 20px 22px; }
+.lcard-body h3 { font-size: 16px; font-weight: 700; color: var(--dark); margin-bottom: 10px; letter-spacing: -0.2px; }
+.lcard-meta { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 12px; }
+.lcard-meta span { font-size: 12px; color: var(--muted); }
+.lcard-desc { font-size: 13px; color: var(--muted); line-height: 1.6; margin-bottom: 16px; }
+.lcard-footer { display: flex; justify-content: space-between; align-items: center; }

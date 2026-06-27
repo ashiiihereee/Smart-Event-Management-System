@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance Overview | SmartEvents Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="global.css">
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+<nav class="admin-navbar">
+    <div class="logo">Smart<span>Events</span> <span style="font-size:11px;color:#475569;font-weight:500;margin-left:6px;">Admin</span></div>
+    <ul class="admin-nav-links">
+        <li><a href="admin-dashboard.html">Dashboard</a></li>
+        <li><a href="event-control.html">Events</a></li>
+        <li><a href="user-management.html">Users</a></li>
+        <li><a href="role-assignment.html">Roles</a></li>
+        <li><a href="participation-analytics.html">Analytics</a></li>
+        <li><a href="attendance-overview.html" class="active">Attendance</a></li>
+        <li><a href="system-settings.html">Settings</a></li>
+        <li><a href="#" class="logout-btn" onclick="confirmLogout()">Logout</a></li>
+    </ul>
+    <div class="admin-badge">🛡️ Admin</div>
+</nav>
+
+<div class="admin-page">
+    <div class="welcome-bar">
+        <div class="welcome-inner">
+            <div><h1>Attendance Overview</h1><p>Event-wise attendance data across all modules</p></div>
+            <div class="action-row">
+                <select id="eventFilter" class="filter-select" onchange="filterAttendance()">
+                    <option value="">All Events</option>
+                    <option value="completed">Completed Only</option>
+                    <option value="upcoming">Upcoming Only</option>
+                </select>
+                <button class="action-btn" onclick="exportAll()">⬇ Export All</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="admin-content">
+
+        <!-- SUMMARY STATS -->
+        <div class="stat-grid-3">
+            <div class="stat-card card">
+                <div class="stat-icon" style="background:#f0fdf4;">✅</div>
+                <div class="stat-num" id="overallRate">0%</div>
+                <div class="stat-label">Overall Attendance Rate</div>
+                <div class="stat-change up">↑ 6% vs last semester</div>
+            </div>
+            <div class="stat-card card">
+                <div class="stat-icon" style="background:#eef2ff;">👥</div>
+                <div class="stat-num" id="totalAttended">0</div>
+                <div class="stat-label">Total Attendees (Completed)</div>
+            </div>
+            <div class="stat-card card">
+                <div class="stat-icon" style="background:#fff7ed;">⏳</div>
+                <div class="stat-num" id="pendingCount">0</div>
+                <div class="stat-label">Pending Attendance</div>
+                <div class="stat-change down" id="pendingNote"></div>
+            </div>
+        </div>
+
+        <!-- EVENT CARDS GRID -->
+        <div id="attendanceGrid" style="display:grid;grid-template-columns:repeat(2,1fr);gap:20px;"></div>
+
+        <!-- DETAIL MODAL trigger area -->
+        <div id="noEvents" style="display:none;text-align:center;padding:48px;color:var(--muted);font-size:14px;">No events match the selected filter.</div>
+
+    </div>
+</div>
+
+<!-- DETAIL MODAL -->
+<div class="modal-overlay" id="detailModal">
+    <div class="modal-box">
+        <div class="modal-head">
+            <h2 id="detailTitle">Event Attendance</h2>
+            <button class="modal-close" onclick="closeModal('detailModal')">✕</button>
+        </div>
+        <div id="detailBody"></div>
+        <div class="modal-footer">
+            <button class="action-btn" onclick="exportEvent()">⬇ Export</button>
+            <button class="btn-primary" onclick="closeModal('detailModal')">Close</button>
+        </div>
+    </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast" style="display:none;position:fixed;bottom:28px;right:28px;background:#0f172a;color:#fff;padding:14px 22px;border-radius:12px;font-size:14px;font-weight:600;z-index:3000;"><span id="toastMsg"></span></div>
+
+<!-- LOGOUT MODAL -->
+<div class="modal-overlay" id="logoutModal">
+    <div class="modal-box" style="max-width:360px;text-align:center;">
+        <div style="font-size:36px;margin-bottom:14px;">👋</div>
+        <h3 style="font-size:18px;font-weight:800;margin-bottom:8px;">Logging out?</h3>
+        <p style="font-size:14px;color:var(--muted);margin-bottom:24px;">You will be redirected to the homepage.</p>
+        <div style="display:flex;gap:10px;justify-content:center;">
+            <button class="btn-outline" onclick="closeModal('logoutModal')">Cancel</button>
+            <button class="btn-primary" onclick="location.href='homepage.html'">Yes, Logout</button>
+        </div>
+    </div>
+</div>
+
+<script>
+function openModal(id)  { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+function confirmLogout(){ openModal('logoutModal'); }
+
+function showToast(msg) {
+    document.getElementById('toastMsg').textContent = msg;
+    const t = document.getElementById('toast');
+    t.style.display = 'block';
+    setTimeout(() => t.style.display = 'none', 2500);
+}
+
+// ── DATA ──────────────────────────────────────────────────
+const events = [
+    { id:1, name:'Robotics Workshop',     category:'Workshop',  date:'12 Mar 2026', emoji:'🤖', status:'completed', total:20, registered:20, attended:20 },
+    { id:2, name:'Rhythm Fest 2026',      category:'Cultural',  date:'20 Mar 2026', emoji:'🎭', status:'completed', total:30, registered:30, attended:28 },
+    { id:3, name:'Debate Championship',   category:'Cultural',  date:'18 Mar 2026', emoji:'🎤', status:'completed', total:40, registered:35, attended:32 },
+    { id:4, name:'HackNova 2026',         category:'Technical', date:'12 Mar 2026', emoji:'💻', status:'upcoming',  total:50, registered:38, attended:null },
+    { id:5, name:'Football Championship', category:'Sports',    date:'5 Apr 2026',  emoji:'⚽', status:'upcoming',  total:14, registered:9,  attended:null },
+];
+
+// ── Calculate summary ─────────────────────────────────────
+function calcSummary(data) {
+    const completed = data.filter(e => e.status === 'completed');
+    const totalAttended = completed.reduce((s, e) => s + (e.attended || 0), 0);
+    const totalReg      = completed.reduce((s, e) => s + e.registered, 0);
+    const rate = totalReg > 0 ? Math.round((totalAttended / totalReg) * 100) : 0;
+    const pending = data.filter(e => e.status === 'upcoming').length;
+
+    document.getElementById('overallRate').textContent  = rate + '%';
+    document.getElementById('totalAttended').textContent = totalAttended;
+    document.getElementById('pendingCount').textContent  = pending;
+    document.getElementById('pendingNote').textContent   = pending > 0 ? 'Needs coordinator action' : 'All events marked!';
+}
+
+// ── Render cards ──────────────────────────────────────────
+function renderCards(data) {
+    const grid = document.getElementById('attendanceGrid');
+    const none = document.getElementById('noEvents');
+
+    if (data.length === 0) {
+        grid.innerHTML = '';
+        none.style.display = 'block';
+        return;
+    }
+    none.style.display = 'none';
+
+    grid.innerHTML = data.map(e => {
+        const isCompleted = e.status === 'completed';
+        const rate = isCompleted ? Math.round((e.attended / e.registered) * 100) : null;
+        const barPct = isCompleted ? rate : 0;
+        const barCol = rate >= 90 ? 'var(--success)' : rate >= 70 ? 'var(--warning)' : 'var(--danger)';
+
+        return `
+        <div class="card card-pad">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px;">
+                <div>
+                    <div style="font-size:16px;font-weight:700;color:var(--dark);">${e.emoji} ${e.name}</div>
+                    <div style="font-size:12px;color:var(--muted);margin-top:3px;">${e.date} &nbsp;•&nbsp; ${e.category}</div>
+                </div>
+                <span class="pill ${isCompleted ? 'pill-success' : 'pill-primary'}">${isCompleted ? 'Completed' : 'Upcoming'}</span>
+            </div>
+
+            ${isCompleted ? `
+            <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
+                <span style="font-size:13px;color:var(--muted);">Attendance Rate</span>
+                <span style="font-size:14px;font-weight:700;color:${barCol};">${rate}% (${e.attended}/${e.registered})</span>
+            </div>
+            <div class="progress-wrap" style="margin-bottom:16px;"><div class="progress-bar" style="width:${barPct}%;background:${barCol};"></div></div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px;">
+                <div style="background:var(--bg);border-radius:8px;padding:10px;text-align:center;border:1px solid var(--border);">
+                    <div style="font-size:20px;font-weight:800;color:var(--success);">${e.attended}</div>
+                    <div style="font-size:11px;color:var(--muted);">Present</div>
+                </div>
+                <div style="background:var(--bg);border-radius:8px;padding:10px;text-align:center;border:1px solid var(--border);">
+                    <div style="font-size:20px;font-weight:800;color:var(--danger);">${e.registered - e.attended}</div>
+                    <div style="font-size:11px;color:var(--muted);">Absent</div>
+                </div>
+                <div style="background:var(--bg);border-radius:8px;padding:10px;text-align:center;border:1px solid var(--border);">
+                    <div style="font-size:20px;font-weight:800;color:var(--primary);">${e.registered}</div>
+                    <div style="font-size:11px;color:var(--muted);">Total</div>
+                </div>
+            </div>
+            <button class="action-btn" style="width:100%;text-align:center;" onclick="viewDetail(${e.id})">View Detailed Attendance →</button>
+            ` : `
+            <div style="background:var(--warning-light);border:1px solid #fed7aa;border-radius:10px;padding:14px 16px;font-size:13px;color:var(--warning);font-weight:600;margin-bottom:14px;">
+                ⏳ Attendance will be available after the event on ${e.date}
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;">
+                <div style="background:var(--bg);border-radius:8px;padding:10px;text-align:center;border:1px solid var(--border);">
+                    <div style="font-size:20px;font-weight:800;color:var(--primary);">${e.registered}</div>
+                    <div style="font-size:11px;color:var(--muted);">Registered</div>
+                </div>
+                <div style="background:var(--bg);border-radius:8px;padding:10px;text-align:center;border:1px solid var(--border);">
+                    <div style="font-size:20px;font-weight:800;color:var(--muted);">${e.total - e.registered}</div>
+                    <div style="font-size:11px;color:var(--muted);">Slots Left</div>
+                </div>
+            </div>
+            `}
+        </div>`;
+    }).join('');
+}
+
+// ── Filter ────────────────────────────────────────────────
+function filterAttendance() {
+    const f = document.getElementById('eventFilter').value;
+    const filtered = f ? events.filter(e => e.status === f) : events;
+    calcSummary(filtered);
+    renderCards(filtered);
+}
+
+// ── Detail modal ──────────────────────────────────────────
+function viewDetail(id) {
+    const e = events.find(x => x.id === id);
+    if (!e) return;
+    document.getElementById('detailTitle').textContent = e.name + ' — Attendance Detail';
+    const rate = Math.round((e.attended / e.registered) * 100);
+    document.getElementById('detailBody').innerHTML = `
+        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:18px;">
+            <div style="background:var(--bg);border-radius:8px;padding:12px 14px;border:1px solid var(--border);"><div style="font-size:11px;color:var(--muted);margin-bottom:3px;">Date</div><strong>${e.date}</strong></div>
+            <div style="background:var(--bg);border-radius:8px;padding:12px 14px;border:1px solid var(--border);"><div style="font-size:11px;color:var(--muted);margin-bottom:3px;">Category</div><strong>${e.category}</strong></div>
+            <div style="background:var(--bg);border-radius:8px;padding:12px 14px;border:1px solid var(--border);"><div style="font-size:11px;color:var(--muted);margin-bottom:3px;">Present</div><strong style="color:var(--success);">${e.attended}</strong></div>
+            <div style="background:var(--bg);border-radius:8px;padding:12px 14px;border:1px solid var(--border);"><div style="font-size:11px;color:var(--muted);margin-bottom:3px;">Absent</div><strong style="color:var(--danger);">${e.registered - e.attended}</strong></div>
+        </div>
+        <div style="margin-bottom:6px;font-size:13px;color:var(--muted);">Attendance Rate: <strong style="color:var(--success);">${rate}%</strong></div>
+        <div class="progress-wrap"><div class="progress-bar green" style="width:${rate}%;"></div></div>
+        <p style="font-size:12px;color:var(--muted);margin-top:12px;">Detailed participant-level data is managed by the event coordinator. Contact the coordinator for individual records.</p>
+    `;
+    openModal('detailModal');
+}
+
+function exportAll()   { showToast('⬇ All attendance reports exported!'); }
+function exportEvent() { showToast('⬇ Event attendance exported!'); }
+
+document.querySelectorAll('.modal-overlay').forEach(m => {
+    m.addEventListener('click', e => { if (e.target === m) m.classList.remove('open'); });
+});
+
+// ── Init ──────────────────────────────────────────────────
+calcSummary(events);
+renderCards(events);
+</script>
+
+</body>
+</html>

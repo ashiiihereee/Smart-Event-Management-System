@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance Management | SmartEvents</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="global.css">
+    <link rel="stylesheet" href="coordinator.css">
+    <link rel="stylesheet" href="assignedevents.css">
+</head>
+<body>
+
+<nav class="coord-navbar">
+    <div class="logo">SmartEvents</div>
+    <ul class="coord-nav-links">
+        <li><a href="coordinatordashboard.html">Dashboard</a></li>
+        <li><a href="assignedevents.html">My Events</a></li>
+        <li><a href="participantmanagement.html">Participants</a></li>
+        <li><a href="attendancemanagement.html" class="active">Attendance</a></li>
+        <li><a href="coordinatorprofile.html">Profile</a></li>
+        <li><a href="homepage.html" class="logout-btn">Logout</a></li>
+    </ul>
+    <div class="coord-badge">📋 Coordinator</div>
+</nav>
+
+<div class="coord-page">
+    <div class="welcome-bar">
+        <div class="welcome-inner">
+            <div>
+                <h1>Attendance Management</h1>
+                <p>Mark and view attendance for your assigned events</p>
+            </div>
+            <div style="display:flex;gap:10px;align-items:center;">
+                <select class="filter-select" style="padding:10px 18px;font-size:14px;">
+                    <option>HackNova 2026</option>
+                    <option>Rhythm Fest 2026</option>
+                    <option>Football Championship</option>
+                    <option>Robotics Workshop</option>
+                </select>
+                <button class="btn-primary" onclick="saveAttendance()">Save Attendance</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="coord-content">
+
+        <!-- ATTENDANCE SUMMARY -->
+        <div class="three-col">
+            <div class="card card-pad" style="text-align:center;">
+                <div style="font-size:32px;font-weight:800;color:var(--primary);letter-spacing:-1px;" id="totalCount">38</div>
+                <div style="font-size:13px;color:var(--muted);margin-top:4px;">Total Registered</div>
+            </div>
+            <div class="card card-pad" style="text-align:center;">
+                <div style="font-size:32px;font-weight:800;color:var(--success);letter-spacing:-1px;" id="presentCount">0</div>
+                <div style="font-size:13px;color:var(--muted);margin-top:4px;">Marked Present</div>
+            </div>
+            <div class="card card-pad" style="text-align:center;">
+                <div style="font-size:32px;font-weight:800;color:var(--danger);letter-spacing:-1px;" id="absentCount">38</div>
+                <div style="font-size:13px;color:var(--muted);margin-top:4px;">Absent / Unmarked</div>
+            </div>
+        </div>
+
+        <!-- ATTENDANCE PROGRESS -->
+        <div class="card card-pad">
+            <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
+                <span style="font-size:14px;font-weight:600;color:var(--dark);">Attendance Progress</span>
+                <span style="font-size:14px;font-weight:700;color:var(--primary);" id="attendPct">0%</span>
+            </div>
+            <div class="progress-wrap" style="height:12px;">
+                <div class="progress-bar green" id="attendBar" style="width:0%;"></div>
+            </div>
+        </div>
+
+        <!-- MARK ALL ROW -->
+        <div class="card card-pad" style="padding:14px 22px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+                <span style="font-size:14px;font-weight:600;color:var(--dark);">Quick Mark:</span>
+                <div class="action-row">
+                    <button class="action-btn action-btn-primary" onclick="markAll(true)">✅ Mark All Present</button>
+                    <button class="action-btn action-btn-danger" onclick="markAll(false)">❌ Mark All Absent</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ATTENDANCE TABLE -->
+        <div class="table-card card">
+            <div class="table-wrapper">
+                <table class="data-table" id="attendTable">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Participant / Team</th>
+                            <th>Roll No.</th>
+                            <th>Type</th>
+                            <th>Present</th>
+                            <th>Remarks</th>
+                        </tr>
+                    </thead>
+                    <tbody id="attendBody">
+                        <tr>
+                            <td>1</td>
+                            <td><div class="td-name">Team CodeCrush</div><div style="font-size:11px;color:var(--muted);">Ashna Bansal (Leader)</div></td>
+                            <td>22BCE1234</td>
+                            <td><span class="badge badge-technical">Team</span></td>
+                            <td><input type="checkbox" class="attend-check" onchange="updateCount()"></td>
+                            <td><input type="text" placeholder="Optional remarks..." style="border:1px solid var(--border);border-radius:6px;padding:5px 10px;font-size:12px;font-family:'Plus Jakarta Sans',sans-serif;width:150px;"></td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td><div class="td-name">Team ByteForce</div><div style="font-size:11px;color:var(--muted);">Rohan Sharma (Leader)</div></td>
+                            <td>22BCE5678</td>
+                            <td><span class="badge badge-technical">Team</span></td>
+                            <td><input type="checkbox" class="attend-check" onchange="updateCount()"></td>
+                            <td><input type="text" placeholder="Optional remarks..." style="border:1px solid var(--border);border-radius:6px;padding:5px 10px;font-size:12px;font-family:'Plus Jakarta Sans',sans-serif;width:150px;"></td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td><div class="td-name">Team NullPointer</div><div style="font-size:11px;color:var(--muted);">Priya Mehta (Leader)</div></td>
+                            <td>22BCE9012</td>
+                            <td><span class="badge badge-technical">Team</span></td>
+                            <td><input type="checkbox" class="attend-check" onchange="updateCount()"></td>
+                            <td><input type="text" placeholder="Optional remarks..." style="border:1px solid var(--border);border-radius:6px;padding:5px 10px;font-size:12px;font-family:'Plus Jakarta Sans',sans-serif;width:150px;"></td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td><div class="td-name">Team DevHawks</div><div style="font-size:11px;color:var(--muted);">Arjun Kapoor (Leader)</div></td>
+                            <td>22BCE3456</td>
+                            <td><span class="badge badge-technical">Team</span></td>
+                            <td><input type="checkbox" class="attend-check" onchange="updateCount()"></td>
+                            <td><input type="text" placeholder="Optional remarks..." style="border:1px solid var(--border);border-radius:6px;padding:5px 10px;font-size:12px;font-family:'Plus Jakarta Sans',sans-serif;width:150px;"></td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td><div class="td-name">Team StackOverflow</div><div style="font-size:11px;color:var(--muted);">Simran Kaur (Leader)</div></td>
+                            <td>22BCE7890</td>
+                            <td><span class="badge badge-technical">Team</span></td>
+                            <td><input type="checkbox" class="attend-check" onchange="updateCount()"></td>
+                            <td><input type="text" placeholder="Optional remarks..." style="border:1px solid var(--border);border-radius:6px;padding:5px 10px;font-size:12px;font-family:'Plus Jakarta Sans',sans-serif;width:150px;"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- SAVE ROW -->
+        <div style="display:flex;justify-content:flex-end;gap:12px;">
+            <button class="action-btn">⬇ Export Attendance</button>
+            <button class="action-btn action-btn-primary" onclick="saveAttendance()">💾 Save Attendance</button>
+        </div>
+
+        <!-- SUCCESS MSG -->
+        <div id="saveMsg" style="display:none;background:var(--success-light);border:1.5px solid #bbf7d0;border-radius:12px;padding:16px 22px;font-size:14px;font-weight:600;color:var(--success);">
+            ✅ Attendance saved successfully!
+        </div>
+
+    </div>
+</div>
+
+<style>
+.filter-select { padding:8px 14px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;font-family:'Plus Jakarta Sans',sans-serif;color:var(--dark);background:#fff;outline:none;cursor:pointer; }
+</style>
+
+<script>
+const total = 5;
+
+function updateCount() {
+    const checks = document.querySelectorAll('.attend-check');
+    let present = 0;
+    checks.forEach(c => { if (c.checked) present++; });
+    const absent = total - present;
+    const pct = Math.round((present / total) * 100);
+    document.getElementById('presentCount').textContent = present;
+    document.getElementById('absentCount').textContent  = absent;
+    document.getElementById('attendPct').textContent    = pct + '%';
+    document.getElementById('attendBar').style.width   = pct + '%';
+}
+
+function markAll(val) {
+    document.querySelectorAll('.attend-check').forEach(c => c.checked = val);
+    updateCount();
+}
+
+function saveAttendance() {
+    const msg = document.getElementById('saveMsg');
+    msg.style.display = 'block';
+    setTimeout(() => msg.style.display = 'none', 3000);
+}
+</script>
+
+</body>
+</html>

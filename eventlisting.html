@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Events | SmartEvents</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="global.css">
+    <link rel="stylesheet" href="eventlisting.css">
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="logo">SmartEvents</div>
+    <ul class="nav-links">
+        <li><a href="homepage.html">Home</a></li>
+        <li><a href="eventlisting.html" class="active">Events</a></li>
+    </ul>
+    <div class="nav-right">
+        <button class="btn-ghost" onclick="location.href='login.html'">Login</button>
+        <button class="btn-solid" onclick="location.href='login.html'">Register Free</button>
+    </div>
+</nav>
+
+<div class="page-header">
+    <div class="page-header-inner">
+        <div class="eyebrow">Explore</div>
+        <h1>All Events</h1>
+        <p>Discover technical, cultural and sports events at NMIMS Chandigarh</p>
+    </div>
+</div>
+
+<div class="filters-bar">
+    <div class="filters-inner">
+        <div class="search-box">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="searchInput" placeholder="Search events..." oninput="applyFilters()">
+        </div>
+        <div class="filter-selects">
+            <select id="catFilter" onchange="applyFilters()">
+                <option value="">All Categories</option>
+                <option value="technical">Technical</option>
+                <option value="cultural">Cultural</option>
+                <option value="sports">Sports</option>
+                <option value="workshop">Workshop</option>
+            </select>
+            <select id="typeFilter" onchange="applyFilters()">
+                <option value="">All Types</option>
+                <option value="team">Team</option>
+                <option value="solo">Solo</option>
+            </select>
+            <select id="statusFilter" onchange="applyFilters()">
+                <option value="">All Status</option>
+                <option value="open">Open</option>
+                <option value="closed">Closed</option>
+                <option value="completed">Completed</option>
+            </select>
+            <select id="sortFilter" onchange="applyFilters()">
+                <option value="latest">Sort: Latest</option>
+                <option value="popular">Sort: Popularity</option>
+            </select>
+        </div>
+    </div>
+</div>
+
+<div class="results-bar">
+    <div class="filters-inner">
+        <span class="results-count">Showing <strong id="resultCount">3</strong> events</span>
+    </div>
+</div>
+
+<section class="section-sm">
+    <div class="listing-grid" id="eventGrid">
+
+        <div class="lcard card"
+             data-name="hacknova 2026"
+             data-category="technical"
+             data-type="team"
+             data-status="open"
+             data-date="2026-03-12">
+            <div class="lcard-top technical"><span class="lcard-emoji">💻</span><span class="badge badge-technical">Technical</span></div>
+            <div class="lcard-body">
+                <h3>HackNova 2026</h3>
+                <div class="lcard-meta"><span>📅 12 March 2026</span><span>👥 Team (2–4)</span><span>💰 ₹500/team</span></div>
+                <p class="lcard-desc">24-hour hackathon to build innovative solutions for real-world problems.</p>
+                <div class="lcard-footer">
+                    <span class="pill pill-success">12 slots left</span>
+                    <button class="btn-primary btn-sm" onclick="location.href='eventdetails-hackathon.html'">View Details</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="lcard card"
+             data-name="rhythm fest 2026"
+             data-category="cultural"
+             data-type="solo"
+             data-status="closed"
+             data-date="2026-03-20">
+            <div class="lcard-top cultural"><span class="lcard-emoji">🎭</span><span class="badge badge-cultural">Cultural</span></div>
+            <div class="lcard-body">
+                <h3>Rhythm Fest 2026</h3>
+                <div class="lcard-meta"><span>📅 20 March 2026</span><span>👤 Solo</span><span>💰 ₹200/person</span></div>
+                <p class="lcard-desc">Dance, music and drama competition on the grand open-air stage.</p>
+                <div class="lcard-footer">
+                    <span class="pill pill-danger">Registration Closed</span>
+                    <button class="btn-outline btn-sm" onclick="location.href='eventdetails-rhytmfest.html'">View Details</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="lcard card"
+             data-name="inter-college football"
+             data-category="sports"
+             data-type="team"
+             data-status="open"
+             data-date="2026-04-05">
+            <div class="lcard-top sports"><span class="lcard-emoji">⚽</span><span class="badge badge-sports">Sports</span></div>
+            <div class="lcard-body">
+                <h3>Inter-College Football</h3>
+                <div class="lcard-meta"><span>📅 5 April 2026</span><span>👥 Team (11)</span><span>💰 ₹1000/team</span></div>
+                <p class="lcard-desc">Battle it out on the field — inter-college football championship.</p>
+                <div class="lcard-footer">
+                    <span class="pill pill-success">5 slots left</span>
+                    <button class="btn-primary btn-sm" onclick="location.href='eventdetails-sports.html'">View Details</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="lcard card"
+             data-name="robotics workshop"
+             data-category="workshop"
+             data-type="solo"
+             data-status="completed"
+             data-date="2026-03-12">
+            <div class="lcard-top technical" style="background:linear-gradient(135deg,#fff7ed,#ffedd5);"><span class="lcard-emoji">🤖</span><span class="badge badge-workshop">Workshop</span></div>
+            <div class="lcard-body">
+                <h3>Robotics Workshop</h3>
+                <div class="lcard-meta"><span>📅 12 March 2026</span><span>👤 Solo</span><span>💰 Free</span></div>
+                <p class="lcard-desc">Hands-on robotics session for beginners and intermediate level students.</p>
+                <div class="lcard-footer">
+                    <span class="pill pill-success">Completed</span>
+                    <button class="btn-outline btn-sm" onclick="location.href='eventlisting.html'">View Details</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="noResults" style="display:none;text-align:center;padding:60px 20px;">
+        <div style="font-size:40px;margin-bottom:12px;">🔍</div>
+        <div style="font-size:16px;font-weight:700;color:var(--dark);margin-bottom:6px;">No events found</div>
+        <div style="font-size:14px;color:var(--muted);">Try adjusting your search or filters</div>
+        <button class="btn-outline" style="margin-top:18px;" onclick="resetFilters()">Clear Filters</button>
+    </div>
+</section>
+
+<footer>
+    <div class="footer-grid">
+        <div class="footer-section"><div class="footer-brand">Smart<span>Events</span></div><p>NMIMS University Chandigarh</p></div>
+        <div class="footer-section"><h4>Platform</h4><a href="eventlisting.html">Browse Events</a><a href="login.html">Login</a></div>
+        <div class="footer-section"><h4>Contact</h4><p>events@nmims.edu</p><p>+91 98765 43210</p></div>
+        <div class="footer-section"><h4>Follow Us</h4><a href="#">Instagram</a><a href="#">LinkedIn</a></div>
+    </div>
+    <div class="footer-bottom">© 2026 Smart College Event Lifecycle Management System — NMIMS Chandigarh</div>
+</footer>
+
+<script>
+fetch("http://localhost:3000/events")
+  .then(res => res.json())
+  .then(data => {
+    const grid = document.getElementById("eventGrid");
+    grid.innerHTML = ""; // clear static content
+
+    data.forEach(event => {
+      const card = document.createElement("div");
+      card.className = "lcard card";
+
+      // normalize values
+      const category = event.c_name.toLowerCase();
+      const type = event.event_type?.toLowerCase();
+      const status = event.status === "upcoming" ? "open" : event.status;
+
+      card.setAttribute("data-name", event.title.toLowerCase());
+      card.setAttribute("data-category", category);
+      card.setAttribute("data-type", type);
+      card.setAttribute("data-status", status);
+
+      card.innerHTML = `
+        <div class="lcard-top ${category}">
+          <span class="lcard-emoji">🎯</span>
+          <span class="badge badge-${category}">${event.c_name}</span>
+        </div>
+
+        <div class="lcard-body">
+          <h3>${event.title}</h3>
+
+          <div class="lcard-meta">
+            <span>📅 ${event.event_date.split('T')[0]}</span>
+            <span>${type === 'team' ? '👥 Team' : '👤 Solo'}</span>
+            <span>💰 ₹${event.fee}</span>
+          </div>
+
+          <p class="lcard-desc">${event.description}</p>
+
+          <div class="lcard-footer">
+            <span class="pill ${status === 'open' ? 'pill-success' : 'pill-danger'}">
+              ${status}
+            </span>
+
+            <button class="btn-primary btn-sm"
+              onclick="goToDetails(${event.event_id})">
+              View Details
+            </button>
+          </div>
+        </div>
+      `;
+
+      grid.appendChild(card);
+    });
+
+    applyFilters(); // reuse your filter logic
+  })
+  .catch(err => console.log(err));
+
+
+// 🔥 redirect to details page
+function goToDetails(id) {
+  if (id === 1) location.href = "eventdetails-hackathon.html";
+  else if (id === 2) location.href = "eventdetails-rhytmfest.html";
+  else if (id === 3) location.href = "eventdetails-sports.html";
+}
+</script>
+</body>
+</html>

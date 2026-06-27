@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartEvents | Home</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="global.css">
+    <link rel="stylesheet" href="homepage.css">
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="logo">SmartEvents</div>
+    <ul class="nav-links">
+        <li><a href="homepage.html" class="active">Home</a></li>
+        <li><a href="eventlisting.html">Events</a></li>
+    </ul>
+    <div class="nav-right">
+        <button class="btn-ghost" onclick="location.href='login.html'">Login</button>
+        <button class="btn-solid" onclick="location.href='login.html'">Register Free</button>
+    </div>
+</nav>
+
+<section class="hero">
+    <div class="hero-tag">
+        <span class="live-dot"></span>
+        NMIMS University Chandigarh — Live Events
+    </div>
+    <h1>Discover & Win at<br>Every College <em>Event</em></h1>
+    <p>Hackathons, cultural fests, sports tournaments — register in seconds, track your team, and never miss a deadline again.</p>
+    <div class="hero-btns">
+        <button class="btn-primary" onclick="location.href='eventlisting.html'">Browse All Events</button>
+        <button class="btn-outline" onclick="location.href='login.html'">Login to Dashboard →</button>
+    </div>
+    <div class="hero-stats">
+        <div class="hstat"><div class="hstat-num" id="totalEvents">25+</div><div class="hstat-label">Active Events</div></div>
+        <div class="hstat hstat-div"><div class="hstat-num">540+</div><div class="hstat-label">Registrations</div></div>
+        <div class="hstat hstat-div"><div class="hstat-num">18</div><div class="hstat-label">Coordinators</div></div>
+        <div class="hstat hstat-div"><div class="hstat-num">3</div><div class="hstat-label">Categories</div></div>
+    </div>
+</section>
+
+<!-- CATEGORY FILTER -->
+<div class="cat-bar">
+    <div class="cat-inner">
+        <span class="cat-label">Browse by:</span>
+        <div class="cat-pill cat-all active-pill" onclick="filterCategory('all', this)">All Events</div>
+        <div class="cat-pill cat-tech" onclick="filterCategory('technical', this)">💻 Technical</div>
+        <div class="cat-pill cat-cult" onclick="filterCategory('cultural', this)">🎭 Cultural</div>
+        <div class="cat-pill cat-sport" onclick="filterCategory('sports', this)">⚽ Sports</div>
+        <div class="cat-pill cat-work" onclick="filterCategory('workshop', this)">🔧 Workshop</div>
+    </div>
+</div>
+
+<!-- FEATURED EVENTS -->
+<section class="section">
+    <div class="section-head">
+        <div>
+            <div class="eyebrow">Featured</div>
+            <h2 class="sec-title">Events You Can't Miss</h2>
+            <p class="sec-sub">Handpicked from across categories — register before slots fill up</p>
+        </div>
+        <a href="eventlisting.html" class="view-all">View all events →</a>
+    </div>
+
+    <div class="cards-grid" id="featuredGrid">
+        <div class="event-card card" data-category="technical">
+            <div class="ecard-top technical"><span class="ecard-emoji">💻</span><span class="badge badge-technical">Technical</span></div>
+            <div class="ecard-body">
+                <h3>AI Innovation Hackathon</h3>
+                <div class="ecard-meta"><span>📅 15 March 2026</span><span>👥 Team</span></div>
+                <div class="ecard-footer">
+                    <span class="pill pill-success">12 slots left</span>
+                    <button class="btn-primary btn-sm" onclick="location.href='eventdetails-hackathon.html'">Register</button>
+                </div>
+            </div>
+        </div>
+        <div class="event-card card" data-category="cultural">
+            <div class="ecard-top cultural"><span class="ecard-emoji">🎭</span><span class="badge badge-cultural">Cultural</span></div>
+            <div class="ecard-body">
+                <h3>Battle of Bands</h3>
+                <div class="ecard-meta"><span>📅 20 March 2026</span><span>👤 Solo</span></div>
+                <div class="ecard-footer">
+                    <span class="pill pill-danger">Closed</span>
+                    <button class="btn-primary btn-sm btn-disabled" disabled>Register</button>
+                </div>
+            </div>
+        </div>
+        <div class="event-card card" data-category="sports">
+            <div class="ecard-top sports"><span class="ecard-emoji">⚽</span><span class="badge badge-sports">Sports</span></div>
+            <div class="ecard-body">
+                <h3>Inter-College Football</h3>
+                <div class="ecard-meta"><span>📅 28 March 2026</span><span>👥 Team</span></div>
+                <div class="ecard-footer">
+                    <span class="pill pill-success">5 slots left</span>
+                    <button class="btn-primary btn-sm" onclick="location.href='eventdetails-sports.html'">Register</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- No results message -->
+    <div id="noResults" style="display:none;text-align:center;padding:40px;color:var(--muted);font-size:14px;">
+        No events found for this category.
+    </div>
+</section>
+
+<!-- UPCOMING -->
+<div class="upcoming-wrapper">
+    <section class="section">
+        <div class="eyebrow">Closing Soon</div>
+        <h2 class="sec-title" style="color:#f1f5f9;">Upcoming Deadlines</h2>
+        <p class="sec-sub" style="color:#475569;">Don't miss your chance to register</p>
+        <div class="ulist">
+            <div class="uitem" onclick="location.href='eventlisting.html'" style="cursor:pointer;">
+                <div class="uitem-left">
+                    <div class="uicon uicon-tech">🤖</div>
+                    <div><div class="uname">Robotics Workshop</div><div class="utype">Technical &nbsp;•&nbsp; Solo</div></div>
+                </div>
+                <div class="uright"><span class="badge badge-technical">Technical</span><span class="udate">12 March</span></div>
+            </div>
+            <div class="uitem" onclick="location.href='eventlisting.html'" style="cursor:pointer;">
+                <div class="uitem-left">
+                    <div class="uicon uicon-cult">🎤</div>
+                    <div><div class="uname">Debate Championship</div><div class="utype">Cultural &nbsp;•&nbsp; Solo</div></div>
+                </div>
+                <div class="uright"><span class="badge badge-cultural">Cultural</span><span class="udate">18 March</span></div>
+            </div>
+            <div class="uitem" onclick="location.href='eventlisting.html'" style="cursor:pointer;">
+                <div class="uitem-left">
+                    <div class="uicon uicon-sport">📷</div>
+                    <div><div class="uname">Photography Walk</div><div class="utype">Cultural &nbsp;•&nbsp; Solo</div></div>
+                </div>
+                <div class="uright"><span class="badge badge-cultural">Cultural</span><span class="udate">25 March</span></div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- STATS -->
+<div class="stats-strip">
+    <div class="stats-inner">
+        <div class="sbox"><div class="snum">25+</div><div class="slabel">Total Events</div></div>
+        <div class="sbox sdiv"><div class="snum">540+</div><div class="slabel">Registrations</div></div>
+        <div class="sbox sdiv"><div class="snum">18</div><div class="slabel">Active Coordinators</div></div>
+    </div>
+</div>
+
+<footer>
+    <div class="footer-grid">
+        <div class="footer-section">
+            <div class="footer-brand">Smart<span>Events</span></div>
+            <p>NMIMS University Chandigarh</p>
+            <p>The complete college event lifecycle management platform.</p>
+        </div>
+        <div class="footer-section"><h4>Platform</h4><a href="eventlisting.html">Browse Events</a><a href="login.html">Login</a><a href="login.html">Register</a></div>
+        <div class="footer-section"><h4>Contact</h4><p>events@nmims.edu</p><p>+91 98765 43210</p></div>
+        <div class="footer-section"><h4>Follow Us</h4><a href="#">Instagram</a><a href="#">LinkedIn</a><a href="#">Website</a></div>
+    </div>
+    <div class="footer-bottom">© 2026 Smart College Event Lifecycle Management System — NMIMS Chandigarh</div>
+</footer>
+
+<script>
+// Category filter
+function filterCategory(cat, el) {
+    // Update active pill style
+    document.querySelectorAll('.cat-pill').forEach(p => {
+        p.style.background = '';
+        p.style.color = '';
+        p.style.fontWeight = '';
+    });
+    el.style.fontWeight = '700';
+
+    const cards = document.querySelectorAll('.event-card');
+    let visible = 0;
+    cards.forEach(card => {
+        const show = cat === 'all' || card.dataset.category === cat;
+        card.style.display = show ? 'block' : 'none';
+        if (show) visible++;
+    });
+    document.getElementById('noResults').style.display = visible === 0 ? 'block' : 'none';
+}
+
+// Animate stats on scroll
+const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+        }
+    });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.event-card, .uitem, .sbox').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+    observer.observe(el);
+});
+</script>
+
+</body>
+</html>

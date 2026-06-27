@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile | SmartEvents</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="global.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="profile.css">
+</head>
+<body>
+
+<nav class="dash-navbar">
+    <div class="logo">SmartEvents</div>
+    <ul class="dash-nav-links">
+        <li><a href="studentdashboard.html">Dashboard</a></li>
+        <li><a href="eventlisting.html">Events</a></li>
+        <li><a href="myevents.html">My Events</a></li>
+        <li><a href="profile.html" class="active">Profile</a></li>
+        <li><a href="homepage.html" class="logout-btn">Logout</a></li>
+    </ul>
+</nav>
+
+<div class="dash-page">
+    <div class="welcome-bar">
+        <div class="welcome-inner">
+            <div>
+                <h1>My Profile</h1>
+                <p>Your personal details and participation history</p>
+            </div>
+            <button class="btn-primary" onclick="enableEdit()">Edit Profile</button>
+        </div>
+    </div>
+
+    <div class="dash-content">
+        <div class="profile-grid">
+
+            <!-- PROFILE CARD -->
+            <div class="card card-pad profile-card">
+                <div class="avatar-wrap">
+                    <img src="https://i.pravatar.cc/120?img=47" alt="Profile Photo" class="avatar-img">
+                    <div class="avatar-badge">✏️</div>
+                </div>
+                <h2 class="profile-name">Ashna Bansal</h2>
+                <div class="profile-course">B.Tech Data Science • Sem 4</div>
+                <div class="profile-college">NMIMS University Chandigarh</div>
+
+                <div class="profile-stats">
+                    <div class="pstat"><div class="pstat-num">6</div><div class="pstat-label">Events</div></div>
+                    <div class="pstat pstat-div"><div class="pstat-num">3</div><div class="pstat-label">Certificates</div></div>
+                    <div class="pstat pstat-div"><div class="pstat-num">2</div><div class="pstat-label">Upcoming</div></div>
+                </div>
+            </div>
+
+            <!-- PERSONAL INFO -->
+            <div class="card card-pad">
+                <h3 class="info-title">Personal Information</h3>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-label">Full Name</div>
+                        <div class="info-value">Ashna Bansal</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Email Address</div>
+                        <div class="info-value">ashna@email.com</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Phone Number</div>
+                        <div class="info-value">+91 9XXXXXXXXX</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Roll Number</div>
+                        <div class="info-value">22BCE1234</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Department</div>
+                        <div class="info-value">Data Science</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">University</div>
+                        <div class="info-value">NMIMS Chandigarh</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RECENT ACTIVITY -->
+            <div class="card card-pad activity-card">
+                <h3 class="info-title">Recent Activity</h3>
+                <div class="activity-list">
+                    <div class="activity-item">
+                        <div class="activity-icon technical-bg">💻</div>
+                        <div class="activity-info">
+                            <div class="activity-name">HackNova 2026</div>
+                            <div class="activity-status">Registered for team hackathon</div>
+                        </div>
+                        <span class="pill pill-primary">Upcoming</span>
+                    </div>
+
+                    <div class="activity-item">
+                        <div class="activity-icon cultural-bg">🎭</div>
+                        <div class="activity-info">
+                            <div class="activity-name">RhythmFest 2026</div>
+                            <div class="activity-status">Participated in cultural fest</div>
+                        </div>
+                        <span class="pill pill-success">Certificate Earned</span>
+                    </div>
+
+                    <div class="activity-item">
+                        <div class="activity-icon sports-bg">⚽</div>
+                        <div class="activity-info">
+                            <div class="activity-name">Sports Meet 2025</div>
+                            <div class="activity-status">Participated in sports event</div>
+                        </div>
+                        <span class="pill pill-warning">Winner 🏆</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+function enableEdit() {
+    // Convert text to inputs
+    const values = document.querySelectorAll('.info-value');
+
+    values.forEach((el, index) => {
+        const text = el.textContent;
+
+        // Skip non-edit fields if you want (optional)
+        if (text.includes('@') || text.includes('+91') || text.length > 0) {
+            el.innerHTML = `<input type="text" value="${text}" style="width:100%;padding:6px;border:1px solid #ccc;border-radius:6px;">`;
+        }
+    });
+
+    // Change button to Save
+    document.querySelector('.btn-primary').innerText = "Save Profile";
+    document.querySelector('.btn-primary').setAttribute("onclick", "saveProfile()");
+}
+
+function saveProfile() {
+    const inputs = document.querySelectorAll('.info-value input');
+
+    inputs.forEach(input => {
+        const value = input.value;
+        input.parentElement.textContent = value;
+    });
+
+    // Change button back
+    document.querySelector('.btn-primary').innerText = "Edit Profile";
+    document.querySelector('.btn-primary').setAttribute("onclick", "enableEdit()");
+
+    alert("Profile Updated");
+}
+
+const user = JSON.parse(localStorage.getItem("user"));
+
+if (user) {
+    document.querySelector(".profile-name").innerText = user.full_name;
+
+    const values = document.querySelectorAll('.info-value');
+
+    values[0].innerText = user.full_name;
+    values[1].innerText = user.email;
+    values[2].innerText = user.phone_no;
+    values[3].innerText = "N/A"; // roll (not saved yet)
+    values[4].innerText = user.department;
+}
+</script>
+
+</body>
+</html>

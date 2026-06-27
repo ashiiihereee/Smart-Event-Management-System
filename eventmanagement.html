@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Management | SmartEvents</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="global.css">
+    <link rel="stylesheet" href="coordinator.css">
+    <link rel="stylesheet" href="assignedevents.css">
+</head>
+<body>
+
+<nav class="coord-navbar">
+    <div class="logo">SmartEvents</div>
+    <ul class="coord-nav-links">
+        <li><a href="coordinatordashboard.html">Dashboard</a></li>
+        <li><a href="assignedevents.html">My Events</a></li>
+        <li><a href="participantmanagement.html">Participants</a></li>
+        <li><a href="attendancemanagement.html">Attendance</a></li>
+        <li><a href="coordinatorprofile.html">Profile</a></li>
+        <li><a href="homepage.html" class="logout-btn">Logout</a></li>
+    </ul>
+    <div class="coord-badge">📋 Coordinator</div>
+</nav>
+
+<div class="coord-page">
+    <div class="welcome-bar">
+        <div class="welcome-inner">
+            <div>
+                <a href="assignedevents.html" style="font-size:13px;color:var(--muted);text-decoration:none;display:block;margin-bottom:6px;">← Back to My Events</a>
+                <h1>HackNova 2026</h1>
+                <p>Event Management &nbsp;•&nbsp; Technical &nbsp;•&nbsp; 12 March 2026</p>
+            </div>
+            <span class="pill pill-primary" style="font-size:13px;padding:8px 18px;">Upcoming</span>
+        </div>
+    </div>
+
+    <div class="coord-content">
+        <div class="event-detail-layout">
+
+            <div class="event-info-section">
+
+                <!-- VIEW EVENT DETAILS -->
+                <div class="section-card card card-pad">
+                    <h2>Event Details</h2>
+                    <p>HackNova 2026 is a 24-hour national-level hackathon where developers, designers, and innovators collaborate to build impactful solutions. You are the assigned coordinator responsible for managing registrations, participants, and attendance.</p>
+                    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:18px;">
+                        <div class="detail-item-sm"><span>Date</span><strong>12 March 2026</strong></div>
+                        <div class="detail-item-sm"><span>Time</span><strong>10:00 AM – 10:00 AM</strong></div>
+                        <div class="detail-item-sm"><span>Venue</span><strong>Innovation Lab</strong></div>
+                        <div class="detail-item-sm"><span>Fee</span><strong>₹500 / team</strong></div>
+                        <div class="detail-item-sm"><span>Type</span><strong>Team Event</strong></div>
+                        <div class="detail-item-sm"><span>Registered</span><strong style="color:var(--primary)">38 / 50</strong></div>
+                    </div>
+                </div>
+
+                <!-- UPDATE INSTRUCTIONS -->
+                <div class="section-card card card-pad">
+                    <h2>Update Event Instructions</h2>
+                    <p style="margin-bottom:18px;font-size:13px;">Update venue, timing or any important instructions for participants. Changes will be visible to all registered participants.</p>
+                    <div class="update-form">
+                        <div class="form-row">
+                            <div class="form-group" style="margin-bottom:0;">
+                                <label>Venue</label>
+                                <input type="text" value="Innovation Lab, Block A">
+                            </div>
+                            <div class="form-group" style="margin-bottom:0;">
+                                <label>Reporting Time</label>
+                                <input type="time" value="09:30">
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin-bottom:0;">
+                            <label>Special Instructions for Participants</label>
+                            <textarea>All teams must carry their college ID and laptop. Internet will be provided. Food and beverages will be available.</textarea>
+                        </div>
+                        <div class="form-group" style="margin-bottom:0;">
+                            <label>Announcement / Update Note</label>
+                            <textarea placeholder="e.g. Venue has been changed to Block B Lab 2..."></textarea>
+                        </div>
+                        <div class="action-row">
+                            <button class="action-btn action-btn-primary" onclick="saveAndNotify()">Save & Notify Participants</button>
+                            <button class="action-btn" onclick="saveDraft()">Save Draft</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- SIDEBAR -->
+            <aside class="sidebar-sticky">
+                <div class="card card-pad">
+                    <h3 style="font-size:15px;font-weight:700;color:var(--dark);margin-bottom:16px;">Quick Actions</h3>
+                    <div style="display:flex;flex-direction:column;gap:10px;">
+                        <button class="action-btn action-btn-primary" onclick="location.href='participantmanagement.html'" style="width:100%;text-align:left;">👥 Manage Participants</button>
+                        <button class="action-btn action-btn-primary" onclick="location.href='attendancemanagement.html'" style="width:100%;text-align:left;">✅ Mark Attendance</button>
+                        <button class="action-btn" onclick="location.href='assignedevents.html'" style="width:100%;text-align:left;">← Back to Events</button>
+                    </div>
+                </div>
+
+                <div class="card card-pad">
+                    <h3 style="font-size:15px;font-weight:700;color:var(--dark);margin-bottom:14px;">Slot Utilization</h3>
+                    <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+                        <span style="font-size:13px;color:var(--muted);">Registered</span>
+                        <span style="font-size:13px;font-weight:700;color:var(--primary);">38 / 50</span>
+                    </div>
+                    <div class="progress-wrap"><div class="progress-bar" style="width:76%;"></div></div>
+                    <div style="font-size:12px;color:var(--muted);margin-top:8px;">12 slots remaining</div>
+                </div>
+            </aside>
+
+        </div>
+    </div>
+</div>
+
+<script>
+function getFormData() {
+    return {
+        venue: document.querySelector('input[type="text"]').value,
+        time: document.querySelector('input[type="time"]').value,
+        instructions: document.querySelectorAll('textarea')[0].value,
+        announcement: document.querySelectorAll('textarea')[1].value
+    };
+}
+
+// SAVE DRAFT (only UI for now)
+function saveDraft() {
+    const data = getFormData();
+
+    console.log("Draft Saved:", data);
+    alert("Draft saved successfully ✨");
+}
+
+// SAVE + NOTIFY (connect to backend)
+async function saveAndNotify() {
+    const data = getFormData();
+
+    try {
+        const res = await fetch("http://localhost:3000/event/update", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        });
+
+        const result = await res.text();
+        alert(result);
+
+    } catch (err) {
+        console.log(err);
+        alert("Error connecting to server");
+    }
+}
+</script>
+
+</body>
+</html>

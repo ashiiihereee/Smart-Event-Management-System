@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management | SmartEvents Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="global.css">
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+<nav class="admin-navbar">
+    <div class="logo">Smart<span>Events</span> <span style="font-size:11px;color:#475569;font-weight:500;margin-left:6px;">Admin</span></div>
+    <ul class="admin-nav-links">
+        <li><a href="admin-dashboard.html">Dashboard</a></li>
+        <li><a href="event-control.html">Events</a></li>
+        <li><a href="user-management.html" class="active">Users</a></li>
+        <li><a href="role-assignment.html">Roles</a></li>
+        <li><a href="participation-analytics.html">Analytics</a></li>
+        <li><a href="attendance-overview.html">Attendance</a></li>
+        <li><a href="system-settings.html">Settings</a></li>
+        <li><a href="#" class="logout-btn" onclick="confirmLogout()">Logout</a></li>
+    </ul>
+    <div class="admin-badge">🛡️ Admin</div>
+</nav>
+
+<div class="admin-page">
+    <div class="welcome-bar">
+        <div class="welcome-inner">
+            <div><h1>User Management</h1><p>Manage students, coordinators and their access</p></div>
+            <div style="display:flex;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;overflow:hidden;">
+                <button class="tab-btn tab-active" id="tabStudents" onclick="switchTab('students')">Students (522)</button>
+                <button class="tab-btn" id="tabCoords" onclick="switchTab('coordinators')">Coordinators (18)</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="admin-content">
+
+        <!-- STATS -->
+        <div class="stat-grid-3">
+            <div class="stat-card card"><div class="stat-icon" style="background:#eef2ff;">🎓</div><div class="stat-num">522</div><div class="stat-label">Total Students</div></div>
+            <div class="stat-card card"><div class="stat-icon" style="background:#fff7ed;">📋</div><div class="stat-num">18</div><div class="stat-label">Coordinators</div></div>
+            <div class="stat-card card"><div class="stat-icon" style="background:#f0fdf4;">✅</div><div class="stat-num">540</div><div class="stat-label">Total Active Users</div></div>
+        </div>
+
+        <!-- FILTERS -->
+        <div class="card card-pad" style="padding:14px 22px;">
+            <div class="filters-bar">
+                <div class="search-box" style="flex:1;min-width:220px;">
+                    <span>🔍</span>
+                    <input type="text" id="userSearch" placeholder="Search by name, email or roll number..." oninput="applyUserFilters()">
+                </div>
+                <select id="deptFilter" class="filter-select" onchange="applyUserFilters()">
+                    <option value="">All Departments</option>
+                    <option value="Computer Science">Computer Science</option>
+                    <option value="Data Science">Data Science</option>
+                    <option value="MBA">MBA</option>
+                    <option value="Sports Dept.">Sports Dept.</option>
+                </select>
+                <select id="statusFilter" class="filter-select" onchange="applyUserFilters()">
+                    <option value="">All Status</option>
+                    <option value="Active">Active</option>
+                    <option value="Inactive">Inactive</option>
+                </select>
+                <button class="action-btn" onclick="resetUserFilters()">Clear</button>
+            </div>
+        </div>
+
+        <!-- STUDENTS TABLE -->
+        <div id="studentsSection">
+            <div class="table-card card">
+                <div style="padding:14px 22px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;">
+                    <span style="font-size:14px;font-weight:700;color:var(--dark);">Students</span>
+                    <span style="font-size:13px;color:var(--muted);">Showing <strong id="studentCount">4</strong></span>
+                </div>
+                <div class="table-wrapper">
+                    <table class="data-table">
+                        <thead>
+                            <tr><th>#</th><th>Student</th><th>Roll No.</th><th>Department</th><th>Events</th><th>Status</th><th>Joined</th><th>Actions</th></tr>
+                        </thead>
+                        <tbody id="studentTableBody"></tbody>
+                    </table>
+                </div>
+                <div id="noStudentResults" style="display:none;text-align:center;padding:28px;color:var(--muted);font-size:14px;">No students found.</div>
+            </div>
+        </div>
+
+        <!-- COORDINATORS TABLE -->
+        <div id="coordsSection" style="display:none;">
+            <div class="table-card card">
+                <div style="padding:14px 22px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;">
+                    <span style="font-size:14px;font-weight:700;color:var(--dark);">Coordinators</span>
+                    <span style="font-size:13px;color:var(--muted);">Showing <strong id="coordCount">4</strong></span>
+                </div>
+                <div class="table-wrapper">
+                    <table class="data-table">
+                        <thead>
+                            <tr><th>#</th><th>Coordinator</th><th>Department</th><th>Events Assigned</th><th>Status</th><th>Actions</th></tr>
+                        </thead>
+                        <tbody id="coordTableBody"></tbody>
+                    </table>
+                </div>
+                <div id="noCoordResults" style="display:none;text-align:center;padding:28px;color:var(--muted);font-size:14px;">No coordinators found.</div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- VIEW USER MODAL -->
+<div class="modal-overlay" id="viewUserModal">
+    <div class="modal-box" style="max-width:440px;">
+        <div class="modal-head">
+            <h2 id="viewUserTitle">User Details</h2>
+            <button class="modal-close" onclick="closeModal('viewUserModal')">✕</button>
+        </div>
+        <div id="viewUserBody"></div>
+        <div class="modal-footer">
+            <button class="action-btn" onclick="closeModal('viewUserModal')">Close</button>
+        </div>
+    </div>
+</div>
+
+<!-- CONFIRM ACTION MODAL -->
+<div class="modal-overlay" id="confirmModal">
+    <div class="modal-box" style="max-width:400px;text-align:center;">
+        <div style="font-size:40px;margin-bottom:12px;" id="confirmIcon">⚠️</div>
+        <h3 style="font-size:17px;font-weight:800;margin-bottom:8px;" id="confirmTitle"></h3>
+        <p style="font-size:14px;color:var(--muted);margin-bottom:24px;" id="confirmMsg"></p>
+        <div style="display:flex;gap:10px;justify-content:center;">
+            <button class="action-btn" onclick="closeModal('confirmModal')">Cancel</button>
+            <button class="btn-primary" id="confirmBtn">Confirm</button>
+        </div>
+    </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast" style="display:none;position:fixed;bottom:28px;right:28px;background:#0f172a;color:#fff;padding:14px 22px;border-radius:12px;font-size:14px;font-weight:600;z-index:3000;">
+    <span id="toastMsg"></span>
+</div>
+
+<!-- LOGOUT MODAL -->
+<div class="modal-overlay" id="logoutModal">
+    <div class="modal-box" style="max-width:360px;text-align:center;">
+        <div style="font-size:36px;margin-bottom:14px;">👋</div>
+        <h3 style="font-size:18px;font-weight:800;margin-bottom:8px;">Logging out?</h3>
+        <p style="font-size:14px;color:var(--muted);margin-bottom:24px;">You will be redirected to the homepage.</p>
+        <div style="display:flex;gap:10px;justify-content:center;">
+            <button class="btn-outline" onclick="closeModal('logoutModal')">Cancel</button>
+            <button class="btn-primary" onclick="location.href='homepage.html'">Yes, Logout</button>
+        </div>
+    </div>
+</div>
+
+<style>
+.tab-btn { padding:9px 20px;background:transparent;border:none;font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;transition:0.2s; }
+.tab-active { background:#fff;color:var(--primary);box-shadow:0 1px 4px rgba(0,0,0,0.08); }
+</style>
+
+<script>
+// ── DATA ──────────────────────────────────────────────────
+let students = [
+    { id:1, name:'Ashna Bansal',  initials:'AB', email:'ashna@nmims.edu',  roll:'22BCE1234', dept:'Data Science',     events:3, status:'Active',   joined:'Jan 2026', color:'var(--primary-light)', textColor:'var(--primary)' },
+    { id:2, name:'Rohan Sharma',  initials:'RS', email:'rohan@nmims.edu',  roll:'22BCE5678', dept:'Computer Science',  events:5, status:'Active',   joined:'Jan 2026', color:'#f0fdf4', textColor:'#15803d' },
+    { id:3, name:'Priya Mehta',   initials:'PM', email:'priya@nmims.edu',  roll:'22BCE9012', dept:'MBA',              events:2, status:'Inactive', joined:'Feb 2026', color:'#fdf4ff', textColor:'#7e22ce' },
+    { id:4, name:'Arjun Kapoor',  initials:'AK', email:'arjun@nmims.edu',  roll:'22BCE3456', dept:'Computer Science',  events:4, status:'Active',   joined:'Jan 2026', color:'#fff7ed', textColor:'#c2410c' },
+    { id:5, name:'Simran Kaur',   initials:'SK', email:'simran@nmims.edu', roll:'22BCE7890', dept:'Data Science',     events:3, status:'Active',   joined:'Jan 2026', color:'#f0fdf4', textColor:'#15803d' },
+];
+
+let coordinators = [
+    { id:1, name:'Ananya Sharma', initials:'AS', email:'ananya@nmims.edu', dept:'Computer Science', assigned:3, status:'Active', initColor:'var(--primary-light)', initText:'var(--primary)' },
+    { id:2, name:'Rahul Mehta',   initials:'RM', email:'rahul@nmims.edu',  dept:'Sports Dept.',     assigned:2, status:'Active', initColor:'#f0fdf4',             initText:'#15803d' },
+    { id:3, name:'Riya Kapoor',   initials:'RK', email:'riya@nmims.edu',   dept:'Cultural Dept.',   assigned:4, status:'Active', initColor:'#fdf4ff',             initText:'#7e22ce' },
+    { id:4, name:'Vikram Taneja', initials:'VT', email:'vikram@nmims.edu', dept:'Technical Dept.',  assigned:1, status:'Active', initColor:'#fff7ed',             initText:'#c2410c' },
+];
+
+let currentTab = 'students';
+
+// ── Helpers ───────────────────────────────────────────────
+function openModal(id)  { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+function confirmLogout(){ openModal('logoutModal'); }
+
+function showToast(msg) {
+    document.getElementById('toastMsg').textContent = msg;
+    const t = document.getElementById('toast');
+    t.style.display = 'block';
+    setTimeout(() => t.style.display = 'none', 2800);
+}
+
+// ── Tab switch ────────────────────────────────────────────
+function switchTab(tab) {
+    currentTab = tab;
+    const isStudents = tab === 'students';
+    document.getElementById('studentsSection').style.display = isStudents ? 'block' : 'none';
+    document.getElementById('coordsSection').style.display   = isStudents ? 'none'  : 'block';
+    document.getElementById('tabStudents').classList.toggle('tab-active',  isStudents);
+    document.getElementById('tabCoords').classList.toggle('tab-active',   !isStudents);
+    applyUserFilters();
+}
+
+// ── Render students ───────────────────────────────────────
+function renderStudents(data) {
+    document.getElementById('studentCount').textContent = data.length;
+    document.getElementById('noStudentResults').style.display = data.length === 0 ? 'block' : 'none';
+    document.getElementById('studentTableBody').innerHTML = data.map((u, i) => `
+        <tr>
+            <td>${i+1}</td>
+            <td>
+                <div style="display:flex;align-items:center;gap:10px;">
+                    <div style="width:34px;height:34px;border-radius:50%;background:${u.color};color:${u.textColor};display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;">${u.initials}</div>
+                    <div><div class="td-name">${u.name}</div><div class="td-sub">${u.email}</div></div>
+                </div>
+            </td>
+            <td>${u.roll}</td>
+            <td>${u.dept}</td>
+            <td>${u.events}</td>
+            <td><span class="pill ${u.status==='Active'?'pill-success':'pill-danger'}" style="cursor:default;">${u.status}</span></td>
+            <td>${u.joined}</td>
+            <td>
+                <div class="action-row">
+                    <button class="action-btn" style="padding:5px 12px;font-size:12px;" onclick="viewUser(${u.id},'student')">View</button>
+                    <button class="action-btn ${u.status==='Active'?'btn-danger':'btn-success'}" style="padding:5px 12px;font-size:12px;" onclick="toggleUserStatus(${u.id},'student')">${u.status==='Active'?'Disable':'Enable'}</button>
+                </div>
+            </td>
+        </tr>
+    `).join('');
+}
+
+// ── Render coordinators ───────────────────────────────────
+function renderCoords(data) {
+    document.getElementById('coordCount').textContent = data.length;
+    document.getElementById('noCoordResults').style.display = data.length === 0 ? 'block' : 'none';
+    document.getElementById('coordTableBody').innerHTML = data.map((u, i) => `
+        <tr>
+            <td>${i+1}</td>
+            <td>
+                <div style="display:flex;align-items:center;gap:10px;">
+                    <div style="width:34px;height:34px;border-radius:50%;background:${u.initColor};color:${u.initText};display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;">${u.initials}</div>
+                    <div><div class="td-name">${u.name}</div><div class="td-sub">${u.email}</div></div>
+                </div>
+            </td>
+            <td>${u.dept}</td>
+            <td>${u.assigned} events</td>
+            <td><span class="pill pill-success">${u.status}</span></td>
+            <td>
+                <div class="action-row">
+                    <button class="action-btn" style="padding:5px 12px;font-size:12px;" onclick="viewUser(${u.id},'coordinator')">View</button>
+                    <button class="action-btn btn-danger" style="padding:5px 12px;font-size:12px;" onclick="removeCoordRole(${u.id})">Remove Role</button>
+                </div>
+            </td>
+        </tr>
+    `).join('');
+}
+
+// ── Filters ───────────────────────────────────────────────
+function applyUserFilters() {
+    const search = document.getElementById('userSearch').value.toLowerCase();
+    const dept   = document.getElementById('deptFilter').value;
+    const status = document.getElementById('statusFilter').value;
+
+    if (currentTab === 'students') {
+        const filtered = students.filter(u =>
+            (u.name.toLowerCase().includes(search) || u.email.toLowerCase().includes(search) || u.roll.toLowerCase().includes(search))
+            && (!dept   || u.dept   === dept)
+            && (!status || u.status === status)
+        );
+        renderStudents(filtered);
+    } else {
+        const filtered = coordinators.filter(u =>
+            (u.name.toLowerCase().includes(search) || u.email.toLowerCase().includes(search))
+            && (!dept || u.dept === dept)
+        );
+        renderCoords(filtered);
+    }
+}
+
+function resetUserFilters() {
+    document.getElementById('userSearch').value  = '';
+    document.getElementById('deptFilter').value  = '';
+    document.getElementById('statusFilter').value = '';
+    currentTab === 'students' ? renderStudents(students) : renderCoords(coordinators);
+}
+
+// ── View user modal ───────────────────────────────────────
+function viewUser(id, type) {
+    const u = type === 'student'
+        ? students.find(s => s.id === id)
+        : coordinators.find(c => c.id === id);
+    if (!u) return;
+
+    document.getElementById('viewUserTitle').textContent = u.name;
+    document.getElementById('viewUserBody').innerHTML = `
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+            <div style="background:var(--bg);border-radius:8px;padding:10px 14px;border:1px solid var(--border);">
+                <div style="font-size:11px;color:var(--muted);margin-bottom:3px;">Email</div>
+                <div style="font-size:13px;font-weight:600;">${u.email}</div>
+            </div>
+            <div style="background:var(--bg);border-radius:8px;padding:10px 14px;border:1px solid var(--border);">
+                <div style="font-size:11px;color:var(--muted);margin-bottom:3px;">Department</div>
+                <div style="font-size:13px;font-weight:600;">${u.dept}</div>
+            </div>
+            ${type==='student' ? `
+            <div style="background:var(--bg);border-radius:8px;padding:10px 14px;border:1px solid var(--border);">
+                <div style="font-size:11px;color:var(--muted);margin-bottom:3px;">Roll Number</div>
+                <div style="font-size:13px;font-weight:600;">${u.roll}</div>
+            </div>
+            <div style="background:var(--bg);border-radius:8px;padding:10px 14px;border:1px solid var(--border);">
+                <div style="font-size:11px;color:var(--muted);margin-bottom:3px;">Events Registered</div>
+                <div style="font-size:13px;font-weight:600;">${u.events}</div>
+            </div>
+            <div style="background:var(--bg);border-radius:8px;padding:10px 14px;border:1px solid var(--border);">
+                <div style="font-size:11px;color:var(--muted);margin-bottom:3px;">Status</div>
+                <div style="font-size:13px;font-weight:600;color:${u.status==='Active'?'var(--success)':'var(--danger)'};">${u.status}</div>
+            </div>
+            <div style="background:var(--bg);border-radius:8px;padding:10px 14px;border:1px solid var(--border);">
+                <div style="font-size:11px;color:var(--muted);margin-bottom:3px;">Joined</div>
+                <div style="font-size:13px;font-weight:600;">${u.joined}</div>
+            </div>` : `
+            <div style="background:var(--bg);border-radius:8px;padding:10px 14px;border:1px solid var(--border);">
+                <div style="font-size:11px;color:var(--muted);margin-bottom:3px;">Events Assigned</div>
+                <div style="font-size:13px;font-weight:600;">${u.assigned}</div>
+            </div>
+            <div style="background:var(--bg);border-radius:8px;padding:10px 14px;border:1px solid var(--border);">
+                <div style="font-size:11px;color:var(--muted);margin-bottom:3px;">Status</div>
+                <div style="font-size:13px;font-weight:600;color:var(--success);">${u.status}</div>
+            </div>`}
+        </div>
+    `;
+    openModal('viewUserModal');
+}
+
+// ── Toggle student status ─────────────────────────────────
+function toggleUserStatus(id, type) {
+    const u = students.find(s => s.id === id);
+    if (!u) return;
+    const action = u.status === 'Active' ? 'disable' : 'enable';
+
+    document.getElementById('confirmIcon').textContent  = action === 'disable' ? '🚫' : '✅';
+    document.getElementById('confirmTitle').textContent = action === 'disable' ? 'Disable User?' : 'Enable User?';
+    document.getElementById('confirmMsg').textContent   = `Are you sure you want to ${action} ${u.name}'s account?`;
+    document.getElementById('confirmBtn').textContent   = action === 'disable' ? 'Yes, Disable' : 'Yes, Enable';
+    document.getElementById('confirmBtn').style.background = action === 'disable' ? 'var(--danger)' : 'var(--success)';
+    document.getElementById('confirmBtn').onclick = () => {
+        u.status = u.status === 'Active' ? 'Inactive' : 'Active';
+        renderStudents(students);
+        closeModal('confirmModal');
+        showToast(`✅ ${u.name} has been ${u.status === 'Active' ? 'enabled' : 'disabled'}.`);
+    };
+    openModal('confirmModal');
+}
+
+// ── Remove coordinator role ───────────────────────────────
+function removeCoordRole(id) {
+    const u = coordinators.find(c => c.id === id);
+    if (!u) return;
+    document.getElementById('confirmIcon').textContent  = '⚠️';
+    document.getElementById('confirmTitle').textContent = 'Remove Coordinator Role?';
+    document.getElementById('confirmMsg').textContent   = `This will remove ${u.name}'s coordinator access. They will become a regular user.`;
+    document.getElementById('confirmBtn').textContent   = 'Yes, Remove';
+    document.getElementById('confirmBtn').style.background = 'var(--danger)';
+    document.getElementById('confirmBtn').onclick = () => {
+        coordinators = coordinators.filter(c => c.id !== id);
+        renderCoords(coordinators);
+        closeModal('confirmModal');
+        showToast(`✅ ${u.name}'s coordinator role removed.`);
+    };
+    openModal('confirmModal');
+}
+
+// Close modals on backdrop click
+document.querySelectorAll('.modal-overlay').forEach(m => {
+    m.addEventListener('click', e => { if (e.target === m) m.classList.remove('open'); });
+});
+
+// ── Init ──────────────────────────────────────────────────
+renderStudents(students);
+renderCoords(coordinators);
+</script>
+
+</body>
+</html>

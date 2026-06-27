@@ -1,0 +1,45 @@
+/* eventdetails.css — shared for all 3 event detail pages */
+
+.event-hero { padding: 52px 60px 44px; border-bottom: 1px solid var(--border); width: 100%; }
+.event-hero-inner { max-width: 1200px; margin: 0 auto; }
+.technical-hero { background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%); }
+.cultural-hero  { background: linear-gradient(135deg, #fdf4ff 0%, #f3e8ff 100%); }
+.sports-hero    { background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); }
+
+.back-link { display: inline-block; font-size: 13px; color: var(--muted); text-decoration: none; margin-bottom: 16px; font-weight: 500; transition: 0.2s; }
+.back-link:hover { color: var(--primary); }
+
+.event-hero h1 { font-size: 38px; font-weight: 800; color: var(--dark); letter-spacing: -1px; margin: 10px 0 8px; }
+.event-hero p  { font-size: 16px; color: var(--muted); margin-bottom: 20px; }
+
+.hero-pills { display: flex; flex-wrap: wrap; gap: 10px; }
+.hpill { display: inline-block; padding: 6px 14px; background: rgba(255,255,255,0.7); border: 1px solid rgba(0,0,0,0.08); border-radius: 20px; font-size: 13px; font-weight: 600; color: var(--dark); }
+.hpill.pill-success { background: var(--success-light); color: var(--success); border-color: #bbf7d0; }
+
+.detail-layout { display: grid; grid-template-columns: 1fr 340px; gap: 28px; }
+
+.detail-content { display: flex; flex-direction: column; gap: 20px; }
+.detail-card h2 { font-size: 18px; font-weight: 700; color: var(--dark); margin-bottom: 14px; letter-spacing: -0.3px; }
+.detail-card p  { font-size: 14px; color: var(--muted); line-height: 1.7; }
+.detail-list { padding-left: 20px; display: flex; flex-direction: column; gap: 8px; }
+.detail-list li { font-size: 14px; color: var(--muted); line-height: 1.6; }
+
+.btn-register { width: 100%; padding: 14px; font-size: 16px; border-radius: 12px; }
+
+.detail-sidebar { position: sticky; top: 80px; height: fit-content; }
+.sidebar-card h3 { font-size: 16px; font-weight: 700; color: var(--dark); margin-bottom: 18px; }
+
+.detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 22px; }
+.detail-item { background: var(--bg); border-radius: 10px; padding: 12px 14px; border: 1px solid var(--border); }
+.detail-item span { display: block; font-size: 11px; color: var(--muted); margin-bottom: 4px; font-weight: 500; }
+.detail-item strong { font-size: 13px; color: var(--dark); font-weight: 600; }
+.text-success { color: var(--success) !important; }
+
+.coordinator-box { display: flex; align-items: center; gap: 14px; padding-top: 18px; border-top: 1px solid var(--border); }
+.coord-avatar { width: 44px; height: 44px; border-radius: 50%; background: var(--primary-light); color: var(--primary); font-size: 14px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.coord-name    { font-size: 14px; font-weight: 700; color: var(--dark); }
+.coord-role    { font-size: 12px; color: var(--muted); margin-top: 1px; }
+.coord-contact { font-size: 12px; color: var(--primary); margin-top: 4px; font-weight: 600; }
+
+/* closed event button */
+.btn-closed { width: 100%; padding: 14px; font-size: 16px; border-radius: 12px; background: var(--border); color: #94a3b8; border: none; cursor: not-allowed; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; }

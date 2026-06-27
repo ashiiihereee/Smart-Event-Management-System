@@ -1,0 +1,33 @@
+/* Extra styles for assigned events and event management */
+
+.events-cards-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+
+.event-manage-card { overflow: hidden; }
+.emc-top { height: 100px; display: flex; align-items: center; justify-content: space-between; padding: 0 22px; }
+.technical-bg-top { background: linear-gradient(135deg, #eef2ff, #e0e7ff); }
+.cultural-bg-top  { background: linear-gradient(135deg, #fdf4ff, #f3e8ff); }
+.sports-bg-top    { background: linear-gradient(135deg, #f0fdf4, #dcfce7); }
+.workshop-bg-top  { background: linear-gradient(135deg, #fff7ed, #ffedd5); }
+
+.emc-body { padding: 20px 22px; }
+.emc-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.emc-head h3 { font-size: 16px; font-weight: 700; color: var(--dark); letter-spacing: -0.2px; }
+.emc-meta { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 12px; }
+.emc-meta span { font-size: 12px; color: var(--muted); }
+
+.filter-select { padding: 8px 14px; border: 1.5px solid var(--border); border-radius: 8px; font-size: 13px; font-family: 'Plus Jakarta Sans', sans-serif; color: var(--dark); background: #fff; outline: none; cursor: pointer; }
+
+/* EVENT MANAGEMENT PAGE */
+.event-detail-layout { display: grid; grid-template-columns: 1fr 320px; gap: 24px; }
+.event-info-section { display: flex; flex-direction: column; gap: 20px; }
+.section-card h2 { font-size: 17px; font-weight: 700; color: var(--dark); margin-bottom: 16px; letter-spacing: -0.3px; }
+.section-card p { font-size: 14px; color: var(--muted); line-height: 1.7; }
+
+.update-form { display: flex; flex-direction: column; gap: 14px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+.sidebar-sticky { position: sticky; top: 80px; display: flex; flex-direction: column; gap: 16px; }
+.detail-grid-sm { display: grid; grid-template-columns: 1fr; gap: 10px; }
+.detail-item-sm { background: var(--bg); border: 1px solid var(--border); border-radius: 10px; padding: 10px 14px; }
+.detail-item-sm span { display: block; font-size: 11px; color: var(--muted); margin-bottom: 3px; font-weight: 600; text-transform: uppercase; }
+.detail-item-sm strong { font-size: 13px; color: var(--dark); font-weight: 600; }

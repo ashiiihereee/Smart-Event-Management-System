@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Events | SmartEvents</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="global.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="myevents.css">
+</head>
+<body>
+
+<nav class="dash-navbar">
+    <div class="logo">SmartEvents</div>
+    <ul class="dash-nav-links">
+        <li><a href="studentdashboard.html">Dashboard</a></li>
+        <li><a href="eventlisting.html">Events</a></li>
+        <li><a href="myevents.html" class="active">My Events</a></li>
+        <li><a href="profile.html">Profile</a></li>
+        <li><a href="#" class="logout-btn" onclick="location.href='homepage.html'">Logout</a></li>
+    </ul>
+</nav>
+
+<div class="dash-page">
+    <div class="welcome-bar">
+        <div class="welcome-inner">
+            <div>
+                <h1>My Registered Events</h1>
+                <p>Track your participation, attendance and certificates</p>
+            </div>
+            <div style="display:flex;gap:10px;align-items:center;">
+                <input type="text" id="tableSearch" placeholder="🔍 Search events..."
+                    oninput="filterTable()"
+                    style="padding:9px 14px;border:1.5px solid var(--border);border-radius:9px;font-size:13px;font-family:'Plus Jakarta Sans',sans-serif;outline:none;width:200px;">
+                <button class="btn-primary" onclick="location.href='eventlisting.html'">+ Register for Event</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="dash-content">
+        <div class="table-card card">
+            <div class="table-wrapper">
+                <table class="events-table" id="myEventsTable">
+                    <thead>
+                        <tr>
+                            <th onclick="sortTable(0)" style="cursor:pointer;">Event Name ↕</th>
+                            <th>Type</th>
+                            <th>Category</th>
+                            <th>Registration</th>
+                            <th>Attendance</th>
+                            <th>Certificate</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                        <tr data-name="hacknova 2026">
+                            <td class="event-name-cell">
+                                <div class="event-icon technical-bg">💻</div>
+                                <div><div class="event-cell-name">HackNova 2026</div><div class="event-cell-date">📅 12 March 2026</div></div>
+                            </td>
+                            <td>Team</td>
+                            <td><span class="badge badge-technical">Technical</span></td>
+                            <td><span class="pill pill-success">Registered</span></td>
+                            <td><span class="pill pill-primary">Upcoming</span></td>
+                            <td><span class="pill" style="background:#f1f5f9;color:#64748b;">Pending</span></td>
+                            <td><a href="eventdetails-hackathon.html" class="table-link">View →</a></td>
+                        </tr>
+                        <tr data-name="rhythm fest 2026">
+                            <td class="event-name-cell">
+                                <div class="event-icon cultural-bg">🎭</div>
+                                <div><div class="event-cell-name">Rhythm Fest 2026</div><div class="event-cell-date">📅 20 March 2026</div></div>
+                            </td>
+                            <td>Solo</td>
+                            <td><span class="badge badge-cultural">Cultural</span></td>
+                            <td><span class="pill pill-danger">Closed</span></td>
+                            <td><span class="pill pill-success">Attended</span></td>
+                            <td><span class="pill pill-warning">Earned ✓</span></td>
+                            <td><a href="eventdetails-rhytmfest.html" class="table-link">View →</a></td>
+                        </tr>
+                        <tr data-name="inter-college football">
+                            <td class="event-name-cell">
+                                <div class="event-icon sports-bg">⚽</div>
+                                <div><div class="event-cell-name">Inter-College Football</div><div class="event-cell-date">📅 5 April 2026</div></div>
+                            </td>
+                            <td>Team</td>
+                            <td><span class="badge badge-sports">Sports</span></td>
+                            <td><span class="pill pill-success">Registered</span></td>
+                            <td><span class="pill pill-primary">Upcoming</span></td>
+                            <td><span class="pill" style="background:#f1f5f9;color:#64748b;">Pending</span></td>
+                            <td><a href="eventdetails-sports.html" class="table-link">View →</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="noTableResults" style="display:none;text-align:center;padding:32px;color:var(--muted);font-size:14px;">
+                No events match your search.
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function filterTable() {
+    const query = document.getElementById('tableSearch').value.toLowerCase();
+    const rows  = document.querySelectorAll('#tableBody tr');
+    let visible = 0;
+    rows.forEach(row => {
+        const name = row.dataset.name || '';
+        const show = name.includes(query);
+        row.style.display = show ? '' : 'none';
+        if (show) visible++;
+    });
+    document.getElementById('noTableResults').style.display = visible === 0 ? 'block' : 'none';
+}
+
+let sortAsc = true;
+function sortTable(col) {
+    const tbody = document.getElementById('tableBody');
+    const rows  = Array.from(tbody.querySelectorAll('tr'));
+    rows.sort((a, b) => {
+        const aText = a.cells[col].textContent.trim();
+        const bText = b.cells[col].textContent.trim();
+        return sortAsc ? aText.localeCompare(bText) : bText.localeCompare(aText);
+    });
+    sortAsc = !sortAsc;
+    rows.forEach(r => tbody.appendChild(r));
+}
+</script>
+
+</body>
+</html>
