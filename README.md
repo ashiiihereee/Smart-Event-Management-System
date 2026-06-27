@@ -14,7 +14,7 @@
 
 A **full-stack web application** to digitize and automate the complete college event lifecycle — from registration and team formation to attendance tracking and certificate generation. Built with a role-based system covering three distinct user types: Student, Coordinator, and Admin.
 
-Built as part of the **Web Programming (WP)** course at **NMIMS, Chandigarh Campus** under the guidance of **Ms. Sukhwant Kaur**.
+Built as part of the **Web Programming (WP)** course and **Database Management System (DBMS)** at **NMIMS, Chandigarh Campus** under the guidance of **Ms. Sukhwant Kaur** and **Mr. Aditya Bakshi**.
 
 ---
 
