@@ -236,6 +236,7 @@ NMIMS, Chandigarh Campus — School of Technology Management and Engineering
 ## 🙏 Acknowledgements
 
 - **Ms. Sukhwant Kaur** — Web Programming Subject Teacher, NMIMS Chandigarh
+- **Mr. Aditya Bakshi** — DBMS Subject Teacher, NMIMS Chandigarh
 - [Node.js](https://nodejs.org/) — Backend Runtime
 - [MySQL](https://www.mysql.com/) — Database
 - [dbdiagram.io](https://dbdiagram.io/) — ER Diagram Tool
